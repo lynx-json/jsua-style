@@ -121,58 +121,26 @@ function each(fn, selection) {
   }
 }
 
-function count(selection) {
-  var uniqueElements = [];
-  var _iteratorNormalCompletion3 = true;
-  var _didIteratorError3 = false;
-  var _iteratorError3 = undefined;
-
-  try {
-    for (var _iterator3 = filter(function (el) {
-      return el !== null && uniqueElements.indexOf(el) === -1;
-    }, selection)[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-      var el = _step3.value;
-
-      uniqueElements.push(el);
-    }
-  } catch (err) {
-    _didIteratorError3 = true;
-    _iteratorError3 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion3 && _iterator3.return) {
-        _iterator3.return();
-      }
-    } finally {
-      if (_didIteratorError3) {
-        throw _iteratorError3;
-      }
-    }
-  }
-
-  return uniqueElements.length;
-}
-
 function select(selector, selection) {
-  var _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, e, _iteratorNormalCompletion5, _didIteratorError5, _iteratorError5, _iterator5, _step5, descendant;
+  var _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, e, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, descendant;
 
   return regeneratorRuntime.wrap(function select$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          _iteratorNormalCompletion4 = true;
-          _didIteratorError4 = false;
-          _iteratorError4 = undefined;
+          _iteratorNormalCompletion3 = true;
+          _didIteratorError3 = false;
+          _iteratorError3 = undefined;
           _context2.prev = 3;
-          _iterator4 = selection[Symbol.iterator]();
+          _iterator3 = selection[Symbol.iterator]();
 
         case 5:
-          if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
+          if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
             _context2.next = 46;
             break;
           }
 
-          e = _step4.value;
+          e = _step3.value;
 
           if (e) {
             _context2.next = 9;
@@ -196,19 +164,19 @@ function select(selector, selection) {
             break;
           }
 
-          _iteratorNormalCompletion5 = true;
-          _didIteratorError5 = false;
-          _iteratorError5 = undefined;
+          _iteratorNormalCompletion4 = true;
+          _didIteratorError4 = false;
+          _iteratorError4 = undefined;
           _context2.prev = 16;
-          _iterator5 = e.querySelectorAll("*")[Symbol.iterator]();
+          _iterator4 = e.querySelectorAll("*")[Symbol.iterator]();
 
         case 18:
-          if (_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done) {
+          if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
             _context2.next = 26;
             break;
           }
 
-          descendant = _step5.value;
+          descendant = _step4.value;
 
           if (!selector(descendant)) {
             _context2.next = 23;
@@ -219,7 +187,7 @@ function select(selector, selection) {
           return descendant;
 
         case 23:
-          _iteratorNormalCompletion5 = true;
+          _iteratorNormalCompletion4 = true;
           _context2.next = 18;
           break;
 
@@ -230,26 +198,26 @@ function select(selector, selection) {
         case 28:
           _context2.prev = 28;
           _context2.t0 = _context2["catch"](16);
-          _didIteratorError5 = true;
-          _iteratorError5 = _context2.t0;
+          _didIteratorError4 = true;
+          _iteratorError4 = _context2.t0;
 
         case 32:
           _context2.prev = 32;
           _context2.prev = 33;
 
-          if (!_iteratorNormalCompletion5 && _iterator5.return) {
-            _iterator5.return();
+          if (!_iteratorNormalCompletion4 && _iterator4.return) {
+            _iterator4.return();
           }
 
         case 35:
           _context2.prev = 35;
 
-          if (!_didIteratorError5) {
+          if (!_didIteratorError4) {
             _context2.next = 38;
             break;
           }
 
-          throw _iteratorError5;
+          throw _iteratorError4;
 
         case 38:
           return _context2.finish(35);
@@ -265,7 +233,7 @@ function select(selector, selection) {
           return _context2.delegateYield(e.querySelectorAll(selector), "t1", 43);
 
         case 43:
-          _iteratorNormalCompletion4 = true;
+          _iteratorNormalCompletion3 = true;
           _context2.next = 5;
           break;
 
@@ -276,26 +244,26 @@ function select(selector, selection) {
         case 48:
           _context2.prev = 48;
           _context2.t2 = _context2["catch"](3);
-          _didIteratorError4 = true;
-          _iteratorError4 = _context2.t2;
+          _didIteratorError3 = true;
+          _iteratorError3 = _context2.t2;
 
         case 52:
           _context2.prev = 52;
           _context2.prev = 53;
 
-          if (!_iteratorNormalCompletion4 && _iterator4.return) {
-            _iterator4.return();
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
           }
 
         case 55:
           _context2.prev = 55;
 
-          if (!_didIteratorError4) {
+          if (!_didIteratorError3) {
             _context2.next = 58;
             break;
           }
 
-          throw _iteratorError4;
+          throw _iteratorError3;
 
         case 58:
           return _context2.finish(55);
@@ -312,25 +280,25 @@ function select(selector, selection) {
 }
 
 function map(fn, selection) {
-  var _iteratorNormalCompletion6, _didIteratorError6, _iteratorError6, _iterator6, _step6, e, result;
+  var _iteratorNormalCompletion5, _didIteratorError5, _iteratorError5, _iterator5, _step5, e, result;
 
   return regeneratorRuntime.wrap(function map$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          _iteratorNormalCompletion6 = true;
-          _didIteratorError6 = false;
-          _iteratorError6 = undefined;
+          _iteratorNormalCompletion5 = true;
+          _didIteratorError5 = false;
+          _iteratorError5 = undefined;
           _context3.prev = 3;
-          _iterator6 = selection[Symbol.iterator]();
+          _iterator5 = selection[Symbol.iterator]();
 
         case 5:
-          if (_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done) {
+          if (_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done) {
             _context3.next = 19;
             break;
           }
 
-          e = _step6.value;
+          e = _step5.value;
           result = fn(e);
 
           if (result) {
@@ -357,7 +325,7 @@ function map(fn, selection) {
           return _context3.delegateYield(result, "t0", 16);
 
         case 16:
-          _iteratorNormalCompletion6 = true;
+          _iteratorNormalCompletion5 = true;
           _context3.next = 5;
           break;
 
@@ -368,26 +336,26 @@ function map(fn, selection) {
         case 21:
           _context3.prev = 21;
           _context3.t1 = _context3["catch"](3);
-          _didIteratorError6 = true;
-          _iteratorError6 = _context3.t1;
+          _didIteratorError5 = true;
+          _iteratorError5 = _context3.t1;
 
         case 25:
           _context3.prev = 25;
           _context3.prev = 26;
 
-          if (!_iteratorNormalCompletion6 && _iterator6.return) {
-            _iterator6.return();
+          if (!_iteratorNormalCompletion5 && _iterator5.return) {
+            _iterator5.return();
           }
 
         case 28:
           _context3.prev = 28;
 
-          if (!_didIteratorError6) {
+          if (!_didIteratorError5) {
             _context3.next = 31;
             break;
           }
 
-          throw _iteratorError6;
+          throw _iteratorError5;
 
         case 31:
           return _context3.finish(28);
@@ -414,9 +382,8 @@ function query(selection) {
     each(fn, selection);
   };
 
-  // TODO: test
-  q.count = function () {
-    return count(selection);
+  q.first = function (fn) {
+    first(fn, selection);
   };
 
   q.select = function (selector) {
