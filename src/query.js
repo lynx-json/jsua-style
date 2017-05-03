@@ -1,21 +1,10 @@
+import {
+  executeFunctionOrArrayOfFunctions
+} from "./util";
+
 function matches(selector, element) {
   if (typeof selector === "function") return selector(element);
-  
-  var matches = element.matches ||
-      element.msMatchesSelector ||
-      element.webkitMatchesSelector ||
-      element.mozMatchesSelector ||
-      element.oMatchesSelector;
-      
-  return matches.call(element, selector);
-}
-
-function executeFunctionOrArrayOfFunctions(fn, element) {
-  if (Array.isArray(fn)) {
-    return fn.forEach(f => executeFunctionOrArrayOfFunctions(f, element));
-  }
-  
-  fn(element);
+  return element.matches(selector);
 }
 
 function* filter(selector, selection) {
@@ -38,7 +27,7 @@ function* select(selector, selection) {
     if (matches(selector, e)) {
       yield e;
     }
-    
+
     if (typeof selector === "function") {
       for (let descendant of e.querySelectorAll("*")) {
         if (selector(descendant)) yield descendant;
@@ -59,31 +48,34 @@ function* map(fn, selection) {
 }
 
 export default function query(selection) {
-  if (!selection[Symbol.iterator]) {
+  if (selection.querySelector) {
     selection = [selection];
   }
-  
+
   var q = {};
-  
+
   q.each = function (fn) {
     each(fn, selection);
-    return q;
   };
-  
+
+  q.first = function (fn) {
+    first(fn, selection);
+  };
+
   q.select = function (selector) {
     selection = select(selector, selection);
     return q;
   };
-  
+
   q.map = function (mapFn) {
     selection = map(mapFn, selection);
     return q;
   };
-  
+
   q.filter = function (selector) {
     selection = filter(selector, selection);
     return q;
   };
-  
+
   return q;
 }
