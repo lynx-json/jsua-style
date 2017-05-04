@@ -6,6 +6,7 @@ import {
   when
 } from "./state";
 
+import * as mappers from "./mappers";
 import * as selectors from "./selectors";
 
 export {
@@ -14,5 +15,6 @@ export {
   setState,
   clearState,
   when,
+  mappers,
   selectors
 };

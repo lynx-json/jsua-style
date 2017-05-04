@@ -56,30 +56,6 @@ query(element).filter(el => el.id === "one").each(el => console.log(`Selected "$
 
 ```
 
-You can map to one or more related elements:
-
-```js
-
-var parent = document.createElement("div");
-parent.id = "parent";
-parent.innerHTML = `
-<div id="one"></div>
-<div id="two"></div>
-<div id="three"></div>
-`;
-
-query(parent).map(el => el.children).each(el => console.log(`Selected "${el.id}"`));
-
-// => Selected "one"
-// => Selected "two"
-// => Selected "three"
-
-query(parent.firstElementChild).map(el => el.parent).each(el => console.log(`Selected "${el.id}"`));
-
-// => Selected "parent"
-
-```
-
 ### Selectors
 
 In addition to standard CSS selectors for `select` or `filter` operations, `jsua-style` includes the following predicate
@@ -166,6 +142,46 @@ var element = document.createElement("div");
 
 query(element).each(el => el.style.backgroundColor = "red");
 
+```
+
+Mapping
+-------------------------------------------------
+
+You can map to one or more related elements:
+
+```js
+
+var parent = document.createElement("div");
+parent.id = "parent";
+parent.innerHTML = `
+<div id="one"></div>
+<div id="two"></div>
+<div id="three"></div>
+`;
+
+query(parent).map(el => el.children).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "one"
+// => Selected "two"
+// => Selected "three"
+
+query(parent.firstElementChild).map(el => el.parent).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "parent"
+
+```
+
+### Mappers
+
+The `map` function will take any element or iterable of elements. The `jsua-style`
+module provides the following commonly used functions.
+
+- `ancestors`: All ancestors of the specified element.
+
+All mappers are used as follows:
+  
+```js
+query(element).map(mappers.ancestors());
 ```
 
 Managing State
