@@ -1,3 +1,4 @@
+/* jshint expr: true */
 require("./html-document-api");
 const chai = require("chai");
 const should = chai.should();

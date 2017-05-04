@@ -5,5 +5,5 @@ export default function on(name, fn) {
     el.addEventListener(name, function (e) {
       executeFunctionOrArrayOfFunctions(fn, el, e);
     });
-  }
+  };
 }

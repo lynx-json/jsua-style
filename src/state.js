@@ -65,5 +65,5 @@ export function when(state, fn) {
         executeFunctionOrArrayOfFunctions(fn, element, e);
       }
     });
-  }
+  };
 }

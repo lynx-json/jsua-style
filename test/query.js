@@ -152,7 +152,7 @@ describe("when querying", function () {
       var element = document.createElement("div");
       element.innerHTML = `
         <div></div>
-      `
+      `;
 
       query([element]).select(el => true).each(el => el.modified = true);
       element.modified.should.equal(true);
