@@ -22,7 +22,7 @@ query(elementArray).each(el => console.log(`Selected "${el.id}"`));
 
 ```
 
-You can select from the query using CSS selectors or predicate functions:
+You can select from the query using CSS selectors or predicate selectors:
 
 ```js
 
@@ -39,7 +39,7 @@ query(element).select(el => el.id === "one").each(el => console.log(`Selected "$
 
 ```
 
-You can filter the current selection using CSS selectors or predicate functions:
+You can filter the current selection using CSS selectors or predicate selectors:
 
 ```js
 
@@ -79,6 +79,81 @@ query(parent.firstElementChild).map(el => el.parent).each(el => console.log(`Sel
 // => Selected "parent"
 
 ```
+
+### Selectors
+
+In addition to standard CSS selectors for `select` or `filter` operations, `jsua-style` includes the following predicate
+selectors.
+
+#### `firstChild`
+
+Select all elements that are the first child matching the specified selector.
+
+```js
+var parent = document.createElement("div");
+
+parent.innerHTML = `
+<pre id="one"></pre>
+<div id="two"></div>
+<div id="three">
+  <div id="four"></div>
+</div>
+`;
+
+query(parent).select(firstChild("div")).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "two"
+// => Selected "four"
+
+```
+
+#### `lastChild`
+
+Select all elements that are the last child matching the specified selector.
+
+```js
+var parent = document.createElement("div");
+
+parent.innerHTML = `
+<pre id="one"></pre>
+<div id="two"></div>
+<div id="three">
+  <div id="four"></div>
+</div>
+<pre id="five"></pre>
+`;
+
+query(parent).select(lastChild("div")).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "three"
+// => Selected "four"
+
+```
+
+#### `nthChild`
+
+Select all child elements at a specified index after filtering by the specified selector.
+
+```js
+var parent = document.createElement("div");
+
+parent.innerHTML = `
+<pre id="one"></pre>
+<div id="two"></div>
+<div id="three">
+  <div id="four"></div>
+</div>
+<pre id="five"></pre>
+`;
+
+query(parent).select(nthChild(0, "div")).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "two"
+// => Selected "four"
+
+```
+
+> Note that `firstChild`, `lastChild`, and `nthChild` are similar to, but more flexible than, CSS selectors `:nth-of-type`, `:first-of-type`, and `:last-of-type`.
 
 Styling
 -------------------------------------------------

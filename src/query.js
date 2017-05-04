@@ -1,11 +1,7 @@
 import {
-  executeFunctionOrArrayOfFunctions
+  executeFunctionOrArrayOfFunctions,
+  matches
 } from "./util";
-
-function matches(selector, element) {
-  if (typeof selector === "function") return selector(element);
-  return element.matches(selector);
-}
 
 function* filter(selector, selection) {
   for (var e of selection) {
