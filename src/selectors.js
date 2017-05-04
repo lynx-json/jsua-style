@@ -18,7 +18,7 @@ export function firstChild(selector) {
     }
 
     return true;
-  }
+  };
 }
 
 export function lastChild(selector) {
@@ -32,7 +32,7 @@ export function lastChild(selector) {
     }
 
     return true;
-  }
+  };
 }
 
 export function nthChild(index, selector) {
@@ -47,5 +47,5 @@ export function nthChild(index, selector) {
     }
 
     return count === index;
-  }
+  };
 }
