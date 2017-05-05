@@ -142,7 +142,20 @@ describe("when querying", function () {
 
       query(element).map(el => el.children).each(el => el.selected = true);
       element.children[0].selected.should.equal(true);
-      element.children[0].selected.should.equal(true);
+      element.children[1].selected.should.equal(true);
+      (!!element.selected).should.equal(false);
+    });
+
+    it("should support chaining", function () {
+      var element = document.createElement("div");
+      element.innerHTML = `
+        <div><div></div></div>
+        <div><div></div></div>
+      `;
+
+      query(element).map(el => el.children).map(el => el.children).each(el => el.selected = true);
+      element.children[0].children[0].selected.should.equal(true);
+      element.children[1].children[0].selected.should.equal(true);
       (!!element.selected).should.equal(false);
     });
   });
