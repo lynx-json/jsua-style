@@ -38,7 +38,7 @@ function* map(fn, selection) {
   for (var e of selection) {
     let result = fn(e);
     if (!result) continue;
-    if (!result[Symbol.iterator]) yield result;
+    if (result.tagName) yield result;
     else yield* result;
   }
 }
