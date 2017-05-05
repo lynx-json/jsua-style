@@ -6,7 +6,7 @@ import {
   selectors
 } from "../src";
 
-describe("when selecting firstChild elements", function () {
+describe("when selecting `firstChild` elements", function () {
   describe("when an element has no parent", function () {
     var element, results;
     beforeEach(function () {
@@ -58,7 +58,7 @@ describe("when selecting firstChild elements", function () {
   });
 });
 
-describe("when selecting lastChild elements", function () {
+describe("when selecting `lastChild` elements", function () {
   describe("when an element has no parent", function () {
     var element, results;
     beforeEach(function () {
@@ -110,7 +110,7 @@ describe("when selecting lastChild elements", function () {
   });
 });
 
-describe("when selecting nthChild elements", function () {
+describe("when selecting `nthChild` elements", function () {
   describe("when an element has no parent", function () {
     var element, results;
     beforeEach(function () {
@@ -158,6 +158,46 @@ describe("when selecting nthChild elements", function () {
     it("should select all elements that are at the specified index among their siblings that match the selector", function () {
       results.length.should.equal(1);
       results[0].should.equal(element.lastElementChild);
+    });
+  });
+});
+
+describe("when selecting the `first` element", function () {
+  describe("when no selector is specified", function () {
+    var element, results;
+    beforeEach(function () {
+      element = document.createElement("div");
+      element.innerHTML = `
+      <div></div>
+      <div></div>
+      `;
+
+      results = [];
+      query(element).select(selectors.first()).each(el => results.push(el));
+    });
+
+    it("should select the first element of the previous selection", function () {
+      results.length.should.equal(1);
+      results[0].should.equal(element);
+    });
+  });
+
+  describe("when a selector is specified", function () {
+    var element, results;
+    beforeEach(function () {
+      element = document.createElement("div");
+      element.innerHTML = `
+      <div class="match"></div>
+      <div class="match"></div>
+      `;
+
+      results = [];
+      query(element).select(selectors.first(".match")).each(el => results.push(el));
+    });
+
+    it("should select all elements that are at the specified index among their siblings that match the selector", function () {
+      results.length.should.equal(1);
+      results[0].should.equal(element.firstElementChild);
     });
   });
 });

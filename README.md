@@ -131,6 +131,28 @@ query(parent).select(nthChild(0, "div")).each(el => console.log(`Selected "${el.
 
 > Note that `firstChild`, `lastChild`, and `nthChild` are similar to, but more flexible than, CSS selectors `:nth-of-type`, `:first-of-type`, and `:last-of-type`.
 
+#### `first`
+
+Select only the first element in a selection set.
+
+```js
+var parent = document.createElement("div");
+
+parent.innerHTML = `
+<pre id="one"></pre>
+<div id="two"></div>
+<div id="three">
+  <div id="four"></div>
+</div>
+<pre id="five"></pre>
+`;
+
+query(parent).select(first("pre")).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "one"
+
+```
+
 Styling
 -------------------------------------------------
 

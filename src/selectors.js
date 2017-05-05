@@ -49,3 +49,17 @@ export function nthChild(index, selector) {
     return count === index;
   };
 }
+
+export function first(selector) {
+  selector = selector || "*";
+
+  var found = false;
+  return function (element) {
+    if (found) return false;
+
+    if (matches(selector, element)) {
+      found = true;
+      return true;
+    }
+  }
+}
