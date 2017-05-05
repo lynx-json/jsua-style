@@ -195,7 +195,7 @@ describe("when selecting the `first` element", function () {
       query(element).select(selectors.first(".match")).each(el => results.push(el));
     });
 
-    it("should select all elements that are at the specified index among their siblings that match the selector", function () {
+    it("should select the first element matching the selection", function () {
       results.length.should.equal(1);
       results[0].should.equal(element.firstElementChild);
     });
