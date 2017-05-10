@@ -8,8 +8,10 @@ import {
 
 import * as mappers from "./mappers";
 import * as selectors from "./selectors";
+import context from "./context";
 
 export {
+  context,
   query,
   on,
   setState,
