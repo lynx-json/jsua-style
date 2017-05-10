@@ -84,4 +84,6 @@ describe("when applying conditional style", function () {
       element.hasHoverStyle.should.be.false;
     });
   });
+
+  // describe("when the element is already in the state");
 });

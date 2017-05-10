@@ -60,6 +60,9 @@ export function clearState(state) {
 
 export function when(state, fn) {
   return function (element) {
+    if (element.jsuaStyleHasState && element.jsuaStyleHasState(state)) {
+      executeFunctionOrArrayOfFunctions(fn, element);
+    }
     element.addEventListener("jsua-style-state-change", function (e) {
       if (element.jsuaStyleHasState(state)) {
         executeFunctionOrArrayOfFunctions(fn, element, e);
