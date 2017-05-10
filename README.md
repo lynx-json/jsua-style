@@ -221,3 +221,17 @@ query(element).each([
   setState("normal")
 ]);
 ```
+
+### Context
+
+You can add information about visual context with the `context` function.
+
+```js
+query(element).each([
+  context("page")
+]);
+
+// Now you can add style based on that context.
+query(element).select("[data-jsua-context~=page] > [data-lynx-hints~=header]")
+  .each(el => el.style.padding = "16px");
+```
