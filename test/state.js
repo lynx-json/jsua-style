@@ -52,13 +52,28 @@ describe("when clearing state", function () {
 });
 
 describe("when applying conditional style", function () {
-  describe("when the element is in state", function () {
+  describe("when the element is set to the state", function () {
     var element;
     beforeEach(function () {
       element = document.createElement("div");
       query(element).each([
         when("hover", el => el.hasHoverStyle = true),
         setState("hover")
+      ]);
+    });
+
+    it("should apply conditional style", function () {
+      element.hasHoverStyle.should.be.true;
+    });
+  });
+
+  describe("when the element is already in state", function () {
+    var element;
+    beforeEach(function () {
+      element = document.createElement("div");
+      query(element).each([
+        setState("hover"),
+        when("hover", el => el.hasHoverStyle = true)
       ]);
     });
 
@@ -84,6 +99,4 @@ describe("when applying conditional style", function () {
       element.hasHoverStyle.should.be.false;
     });
   });
-
-  // describe("when the element is already in the state");
 });
