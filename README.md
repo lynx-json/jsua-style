@@ -235,3 +235,52 @@ query(element).each([
 query(element).select("[data-jsua-context~=page] > [data-lynx-hints~=header]")
   .each(el => el.style.padding = "16px");
 ```
+
+### Components
+
+You can create a named component with slotted HTML structure.
+
+```js
+var element = document.createElement("div");
+var initialHTML = `
+<div data-jsua-style-slot-name="label">Label</div>
+<div>Other Content</div>
+`;
+
+element.innerHTML = initialHTML;
+
+var componentHTML = `
+<div role="presentation" data-jsua-style-slot="label"></div>
+<div role="presentation" data-jsua-style-slot="content"></div>
+`
+query(element).each([
+  component("material-card", componentHTML)
+]);
+
+```
+
+The component now has the following HTML.
+
+```HTML
+<div data-jsua-style-component="material-card">
+  <div role="presentation" data-jsua-style-slot="label">
+    <div data-jsua-style-slot-name="label">Label</div>
+  </div>
+  <div role="presentation" data-jsua-style-slot="content">
+    <div>Other Content</div>
+  </div>
+</div>
+```
+
+> By default, children will be added to an element with the attribute
+> `data-jsua-style-slot="content"`. If the child has a `data-jsua-style-slot-name`
+> attribute, it will be added to an element with the same value for `data-jsua-style-slot`.
+
+We could also have added an element to a specific slot after the component had
+been created.
+
+```js
+query(childElement).each([
+  component.slot("material-card", "label")
+]);
+```

@@ -9,6 +9,7 @@ import {
 import * as mappers from "./mappers";
 import * as selectors from "./selectors";
 import context from "./context";
+import component from "./component";
 
 export {
   context,
@@ -18,5 +19,6 @@ export {
   clearState,
   when,
   mappers,
-  selectors
+  selectors,
+  component
 };

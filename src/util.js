@@ -11,7 +11,6 @@ export function matches(selector, element) {
   return element.matches(selector);
 }
 
-
 export function* previousSiblings(el) {
   var previousSibling = el.previousElementSibling;
 
@@ -28,4 +27,21 @@ export function* nextSiblings(el) {
     yield nextSibling;
     nextSibling = nextSibling.nextElementSibling;
   }
+}
+
+function getTokens(view, attributeName) {
+  var tokens = view.getAttribute(attributeName);
+  return tokens ? tokens.split(" ") : [];
+}
+
+function setTokens(view, attributeName, tokens) {
+  tokens = tokens || [];
+  view.setAttribute(attributeName, tokens.join(" "));
+}
+
+export function addToken(element, attributeName, token) {
+  var tokens = getTokens(element, attributeName);
+  if (tokens.indexOf(token) > -1) return;
+  tokens.push(token);
+  setTokens(element, attributeName, tokens);
 }
