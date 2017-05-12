@@ -3,28 +3,24 @@ import {
 } from "./util";
 
 function setupState(element) {
-  var states = [];
+  var states = {};
 
-  element.jsuaStyleHasState = function (state) {
-    return states.includes(state);
+  element.jsuaStyleHasState = function (state, value) {
+    if (value === undefined) value = true;
+    return state in states && states[state] === value;
   };
 
-  element.jsuaStyleSetState = function (state) {
-    if (!states.includes(state)) {
-      states.push(state);
-    }
+  element.jsuaStyleSetState = function (state, value) {
+    if (value === undefined) value = true;
+    states[state] = value;
   };
 
   element.jsuaStyleClearState = function (state) {
-    var index = states.indexOf(state);
-
-    if (index > -1) {
-      states.splice(index, 1);
-    }
+    delete states[state];
   };
 }
 
-function hasState(element) {
+function isTrackingState(element) {
   return !!element.jsuaStyleHasState;
 }
 
@@ -34,13 +30,13 @@ function raiseChangeEvent(element) {
   element.dispatchEvent(evt);
 }
 
-export function setState(state) {
+export function setState(state, value) {
   return function (element) {
-    if (!hasState(element)) {
+    if (!isTrackingState(element)) {
       setupState(element);
     }
 
-    element.jsuaStyleSetState(state);
+    element.jsuaStyleSetState(state, value);
 
     raiseChangeEvent(element);
   };
@@ -48,7 +44,7 @@ export function setState(state) {
 
 export function clearState(state) {
   return function (element) {
-    if (!hasState(element)) {
+    if (!isTrackingState(element)) {
       setupState(element);
     }
 
@@ -58,13 +54,20 @@ export function clearState(state) {
   };
 }
 
-export function when(state, fn) {
+export function when(state, valueOrFn, fn) {
+  var value = true;
+  if (typeof valueOrFn === "function" && fn === undefined) {
+    fn = valueOrFn;
+  } else {
+    value = valueOrFn;
+  }
+
   return function (element) {
-    if (element.jsuaStyleHasState && element.jsuaStyleHasState(state)) {
+    if (element.jsuaStyleHasState && element.jsuaStyleHasState(state, value)) {
       executeFunctionOrArrayOfFunctions(fn, element);
     }
     element.addEventListener("jsua-style-state-change", function (e) {
-      if (element.jsuaStyleHasState(state)) {
+      if (element.jsuaStyleHasState(state, value)) {
         executeFunctionOrArrayOfFunctions(fn, element, e);
       }
     });
