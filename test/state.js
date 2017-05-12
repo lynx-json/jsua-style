@@ -99,4 +99,33 @@ describe("when applying conditional style", function () {
       element.hasHoverStyle.should.be.false;
     });
   });
+
+  describe("when the state has many values", function () {
+    var element;
+    beforeEach(function () {
+      element = document.createElement("div");
+      query(element).each([
+        when("visibility", "visible", el => el.isVisible = true),
+        when("visibility", "hidden", el => el.isVisible = false),
+        setState("visibility", "visible"),
+        setState("visibility", "hidden")
+      ]);
+    });
+
+    it("should not apply style when the specific value matches", function () {
+      element.isVisible.should.be.false;
+    });
+  });
+
+  it("should support an array of arrays", function () {
+    var element = document.createElement("div");
+    query(element).each([
+      when("visibility", "visible", [
+        [
+          el => el.isVisible = true
+        ]
+      ]),
+      setState("visibility", "visible")
+    ]);
+  });
 });
