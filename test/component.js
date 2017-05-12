@@ -78,4 +78,32 @@ describe("when creating a component", function () {
       element.lastElementChild.firstElementChild.should.equal(child);
     });
   });
+
+  describe("when a slot has mode 'replace'", function () {
+    var child;
+    beforeEach(function () {
+      element = document.createElement("div");
+      element.innerHTML = `
+        <div></div>
+      `;
+
+      child = element.lastElementChild;
+
+      var innerHTML = `
+      <div role="presentation" data-jsua-style-slot="content"></div>
+      <div role="presentation" data-jsua-style-slot="label" data-jsua-style-slot-mode="replace"><div id="repaced"></div></div>
+      `;
+
+      query(element).each([
+        component("material-card", innerHTML),
+        el => query(child).each([
+          component.slot("material-card", "label")
+        ])
+      ]);
+    });
+
+    it("should clear the slot and then add the element to the appropriate slot", function () {
+      element.lastElementChild.firstElementChild.should.equal(child);
+    });
+  });
 });

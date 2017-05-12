@@ -23,7 +23,14 @@ export default function component(name, innerHTML) {
       var slotName = el.getAttribute("data-jsua-style-slot-name") || "content";
 
       if (slots[slotName]) {
-        slots[slotName].appendChild(el);
+        var slot = slots[slotName];
+        if (slot.getAttribute("data-jsua-style-slot-mode") === "replace") {
+          while (slot.firstChild) {
+            slot.removeChild(slot.firstChild);
+          }
+        }
+
+        slot.appendChild(el);
       }
     }
 
