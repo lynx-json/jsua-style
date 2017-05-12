@@ -117,15 +117,42 @@ describe("when applying conditional style", function () {
     });
   });
 
-  it("should support an array of arrays", function () {
-    var element = document.createElement("div");
-    query(element).each([
-      when("visibility", "visible", [
-        [
-          el => el.isVisible = true
-        ]
-      ]),
-      setState("visibility", "visible")
-    ]);
+  describe("when conditionally executing an array of functions", function () {
+    var element;
+    describe("when the state has a binary value", function () {
+      beforeEach(function () {
+        element = document.createElement("div");
+        query(element).each([
+          when("visibility", "visible", [
+            [
+              el => el.isVisible = true
+            ]
+          ]),
+          setState("visibility", "visible")
+        ]);
+      });
+
+      it("should execute the array of functions", function () {
+        element.isVisible.should.be.true;
+      });
+    });
+
+    describe("when the state has multiple values", function () {
+      beforeEach(function () {
+        element = document.createElement("div");
+        query(element).each([
+          when("hover", [
+            [
+              el => el.isHovering = true
+            ]
+          ]),
+          setState("hover")
+        ]);
+      });
+
+      it("should execute the array of functions", function () {
+        element.isHovering.should.be.true;
+      });
+    });
   });
 });

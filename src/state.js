@@ -56,7 +56,7 @@ export function clearState(state) {
 
 export function when(state, valueOrFn, fn) {
   var value = true;
-  if (typeof valueOrFn === "function" && fn === undefined) {
+  if (fn === undefined && (typeof valueOrFn === "function" || Array.isArray(valueOrFn))) {
     fn = valueOrFn;
   } else {
     value = valueOrFn;
