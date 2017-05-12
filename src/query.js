@@ -54,10 +54,6 @@ export default function query(selection) {
     each(fn, selection);
   };
 
-  q.first = function (fn) {
-    first(fn, selection);
-  };
-
   q.select = function (selector) {
     selection = select(selector, selection);
     return q;
