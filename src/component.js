@@ -65,6 +65,8 @@ export default function component(name, innerHTML) {
 
 component.slot = function (componentName, slotName) {
   return function (element) {
+    element.setAttribute("data-jsua-style-slot-name", slotName);
+
     query(element)
       .map(ancestors())
       .filter(first("[data-jsua-style-component]"))
@@ -72,7 +74,6 @@ component.slot = function (componentName, slotName) {
         var evt = document.createEvent("Event");
         evt.componentName = componentName;
         evt.element = element;
-        element.setAttribute("data-jsua-style-slot-name", slotName);
         evt.initEvent("jsua-style-slotted", false, false);
         component.dispatchEvent(evt);
       });
