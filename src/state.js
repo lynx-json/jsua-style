@@ -36,8 +36,9 @@ export function setState(state, value) {
       setupState(element);
     }
 
-    element.jsuaStyleSetState(state, value);
+    if (element.jsuaStyleHasState(state, value)) return;
 
+    element.jsuaStyleSetState(state, value);
     raiseChangeEvent(element);
   };
 }
@@ -48,8 +49,9 @@ export function clearState(state) {
       setupState(element);
     }
 
-    element.jsuaStyleClearState(state);
+    if (!element.jsuaStyleHasState(state)) return;
 
+    element.jsuaStyleClearState(state);
     raiseChangeEvent(element);
   };
 }
