@@ -1,6 +1,6 @@
 {
   "name": "@lynx-json/jsua-style",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "A package for styling JSUA views",
   "main": "dist/index.js",
   "scripts": {
