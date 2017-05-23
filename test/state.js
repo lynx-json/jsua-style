@@ -28,6 +28,10 @@ describe("when setting state", function () {
   it("should have the new state", function () {
     element.jsuaStyleHasState("hover").should.be.true;
   });
+
+  it("should indicate the state that changed", function () {
+    stateChangeEvent.jsuaStyleState.should.equal("hover");
+  });
 });
 
 describe("when clearing state", function () {
@@ -48,6 +52,10 @@ describe("when clearing state", function () {
 
   it("should not have the cleared state", function () {
     element.jsuaStyleHasState("hover").should.be.false;
+  });
+
+  it("should indicate the state that changed", function () {
+    stateChangeEvent.jsuaStyleState.should.equal("hover");
   });
 });
 
