@@ -22,6 +22,20 @@ query(elementArray).each(el => console.log(`Selected "${el.id}"`));
 
 ```
 
+You can convert a selection to an array:
+
+```js
+
+var element = document.createElement("div");
+element.id = "one";
+
+var a = query(element).toArray();
+
+console.log(`a[0] "${a[0].id}"`);
+// => Selected "one"
+
+```
+
 You can select from the query using CSS selectors or predicate selectors:
 
 ```js
