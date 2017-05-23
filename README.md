@@ -220,6 +220,52 @@ All mappers are used as follows:
 query(element).map(mappers.ancestors());
 ```
 
+You can map to "real" (non-presentational) children:
+
+```js
+var parent = document.createElement("div");
+parent.id = "parent";
+parent.innerHTML = `
+<div role="presentation">
+  <div id="one"></div>
+</div>
+<div role="presentation">
+  <div role="presentation">
+    <div id="two"></div>
+  </div>
+</div>
+<div id="three"></div>
+`;
+
+query(parent).map(mappers.realChildren()).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "one"
+// => Selected "two"
+// => Selected "three"
+```
+
+You can map to the "real" (non-presentational) parent:
+
+```js
+var parent = document.createElement("div");
+parent.id = "parent";
+parent.innerHTML = `
+<div role="presentation">
+  <div id="one"></div>
+</div>
+<div role="presentation">
+  <div role="presentation">
+    <div id="two"></div>
+  </div>
+</div>
+<div id="three"></div>
+`;
+
+query(parent).select("#two").map(realParent()).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "parent"
+```
+
 Managing State
 -------------------------------------------------
 

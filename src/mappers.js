@@ -37,3 +37,32 @@ export function ancestors() {
     }
   };
 }
+
+export function realChildren() {
+  function* getChildren(el) {
+    for (var i = 0, max = el.children.length; i < max; i++) {
+      let child = el.children[i];
+      if (child.getAttribute("role") === "presentation") {
+        yield* getChildren(child);
+      } else {
+        yield child;
+      }
+    }
+  }
+
+  return function* (el) {
+    yield* getChildren(el);
+  };
+}
+
+export function realParent() {
+  return function (el) {
+    while (el = el.parentElement) {
+      if (el.getAttribute("role") !== "presentation") {
+        return el;
+      }
+    }
+
+    return null;
+  };
+}
