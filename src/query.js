@@ -54,6 +54,12 @@ export default function query(selection) {
     each(fn, selection);
   };
 
+  q.toArray = function () {
+    var a = [];
+    each(el => a.push(el), selection);
+    return a;
+  };
+
   q.select = function (selector) {
     selection = select(selector, selection);
     return q;

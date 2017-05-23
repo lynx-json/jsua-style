@@ -204,6 +204,19 @@ describe("when querying", function () {
     });
   });
 
+  describe("and converting a selection to an array", function () {
+    it("should execute a function for each selected element", function () {
+      var element = document.createElement("div");
+      element.innerHTML = `
+        <div></div>
+      `;
+
+      var a = query([element]).select(el => true).toArray();
+      a[0].should.equal(element);
+      a[1].should.equal(element.firstElementChild);
+    });
+  });
+
   describe("and filtering", function () {
     describe("by predicate", function () {
       it("should select only elements matching the predicate", function () {
