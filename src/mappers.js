@@ -54,8 +54,7 @@ export function realChildren() {
     // We can't return the iterable directly,
     // because it's possible that the structure changes
     // as a result of styling.
-    // return Array.from(getChildren(el));
-    return getChildren(el);
+    return Array.from(getChildren(el));
   };
 }
 
