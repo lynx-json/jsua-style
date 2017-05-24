@@ -15,6 +15,8 @@ function each(fn, selection) {
     executeFunctionOrArrayOfFunctions(fn, el);
     executedElements.push(el);
   }
+
+  return executedElements;
 }
 
 function* select(selector, selection) {
@@ -51,7 +53,8 @@ export default function query(selection) {
   var q = {};
 
   q.each = function (fn) {
-    each(fn, selection);
+    selection = each(fn, selection);
+    return q;
   };
 
   q.toArray = function () {
