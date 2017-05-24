@@ -50,8 +50,8 @@ export function realChildren() {
     }
   }
 
-  return function* (el) {
-    yield* getChildren(el);
+  return function (el) {
+    return Array.from(getChildren(el));
   };
 }
 
