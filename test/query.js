@@ -2,7 +2,8 @@ require("./html-document-api");
 const chai = require("chai");
 const should = chai.should();
 import {
-  query
+  query,
+  mappers
 } from "../src";
 
 describe("when querying", function () {
@@ -146,7 +147,7 @@ describe("when querying", function () {
       (!!element.selected).should.equal(false);
     });
 
-    it("should support chaining", function () {
+    it("should support chaining mappers", function () {
       var element = document.createElement("div");
       element.innerHTML = `
         <div><div></div></div>
@@ -154,6 +155,21 @@ describe("when querying", function () {
       `;
 
       query(element).map(el => el.children).map(el => el.children).each(el => el.selected = true);
+      element.children[0].children[0].selected.should.equal(true);
+      element.children[1].children[0].selected.should.equal(true);
+      (!!element.selected).should.equal(false);
+    });
+
+    it("should support selecting from a mapped selection", function () {
+      var element = document.createElement("div");
+      element.innerHTML = `
+        <div><div></div></div>
+        <div><div></div></div>
+      `;
+
+      query(element).map(mappers.realChildren()).select("div").each(el => el.selected = true);
+      element.children[0].selected.should.equal(true);
+      element.children[1].selected.should.equal(true);
       element.children[0].children[0].selected.should.equal(true);
       element.children[1].children[0].selected.should.equal(true);
       (!!element.selected).should.equal(false);

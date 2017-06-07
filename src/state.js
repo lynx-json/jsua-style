@@ -24,10 +24,11 @@ function isTrackingState(element) {
   return !!element.jsuaStyleHasState;
 }
 
-function raiseChangeEvent(element, state) {
+function raiseChangeEvent(element, state, cleared) {
   var evt = document.createEvent("Event");
   evt.initEvent("jsua-style-state-change", false, false);
   evt.jsuaStyleState = state;
+  evt.jsuaStyleStateCleared = cleared;
 
   element.dispatchEvent(evt);
 }
@@ -54,7 +55,7 @@ export function clearState(state) {
     if (!element.jsuaStyleHasState(state)) return;
 
     element.jsuaStyleClearState(state);
-    raiseChangeEvent(element, state);
+    raiseChangeEvent(element, state, true);
   };
 }
 
