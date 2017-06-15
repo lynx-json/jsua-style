@@ -242,6 +242,11 @@ query(parent).map(mappers.realChildren()).each(el => console.log(`Selected "${el
 // => Selected "one"
 // => Selected "two"
 // => Selected "three"
+
+// Include an inline filter
+query(parent).map(mappers.realChildren("#two")).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "two"
 ```
 
 You can map to the "real" (non-presentational) parent:
@@ -264,6 +269,56 @@ parent.innerHTML = `
 query(parent).select("#two").map(realParent()).each(el => console.log(`Selected "${el.id}"`));
 
 // => Selected "parent"
+
+// Include an inline filter
+query(parent).select("#two").map(mappers.realParent("#parent")).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "parent"
+```
+
+You can map to ancestors:
+
+```js
+var parent = document.createElement("div");
+parent.id = "root";
+parent.innerHTML = `
+<div id="one">
+  <div id="two"></div>
+</div>
+`;
+
+query(parent).select("#two").map(ancestors()).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "one"
+// => Selected "root"
+
+// Include an inline filter
+query(parent).select("#two").map(ancestors("#root")).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "root"
+```
+
+You can map to previous and next siblings:
+
+```js
+var parent = document.createElement("div");
+parent.id = "root";
+parent.innerHTML = `
+<div id="one"></div>
+<div id="two"></div>
+<div id="three"></div>
+<div id="four"></div>
+`;
+
+query(parent).select("#three").map(previousSiblings()).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "two"
+// => Selected "one"
+
+// Include an inline filter
+query(parent).select("#two").map(nextSiblings("#four")).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "four"
 ```
 
 Managing State

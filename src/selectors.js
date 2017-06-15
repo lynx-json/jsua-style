@@ -21,6 +21,14 @@ export function firstChild(selector) {
   };
 }
 
+// export function not(selector) {
+//   selector = selector || "*";
+// 
+//   return function (element) {
+//     
+//   };
+// }
+
 export function lastChild(selector) {
   selector = selector || "*";
   return function (element) {

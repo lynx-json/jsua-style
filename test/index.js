@@ -6,3 +6,4 @@ require("./selectors");
 require("./context");
 require("./component");
 require("./mappers");
+require("./lock");

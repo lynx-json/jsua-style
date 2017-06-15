@@ -10,6 +10,7 @@ import * as mappers from "./mappers";
 import * as selectors from "./selectors";
 import context from "./context";
 import component from "./component";
+import lock from "./lock";
 
 export {
   context,
@@ -20,5 +21,6 @@ export {
   when,
   mappers,
   selectors,
-  component
+  component,
+  lock
 };

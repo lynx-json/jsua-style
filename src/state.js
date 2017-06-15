@@ -28,7 +28,7 @@ function raiseChangeEvent(element, state, cleared) {
   var evt = document.createEvent("Event");
   evt.initEvent("jsua-style-state-change", false, false);
   evt.jsuaStyleState = state;
-  evt.jsuaStyleStateCleared = cleared;
+  evt.jsuaStyleStateCleared = !!cleared;
 
   element.dispatchEvent(evt);
 }

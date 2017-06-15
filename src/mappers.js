@@ -1,3 +1,5 @@
+import {matches} from "./util";
+
 export function previousSiblings() {
   return function* (el) {
     var previousSibling = el.previousElementSibling;
@@ -9,42 +11,41 @@ export function previousSiblings() {
   };
 }
 
-export function nextSiblings() {
+export function nextSiblings(selector) {
+  selector = selector || "*";
+  
   return function* (el) {
     var nextSibling = el.nextElementSibling;
 
     while (nextSibling) {
-      yield nextSibling;
+      if (matches(selector, nextSibling)) yield nextSibling;
       nextSibling = nextSibling.nextElementSibling;
     }
   };
 }
 
-// export function siblings() {
-//   return function* (el) {
-//     yield* previousSiblings()(el);
-//     yield* nextSiblings()(el);
-//   };
-// }
-
-export function ancestors() {
+export function ancestors(selector) {
+  selector = selector || "*";
+  
   return function* (el) {
     var ancestor = el.parentElement;
 
     while (ancestor) {
-      yield ancestor;
+      if (matches(selector, ancestor)) yield ancestor;
       ancestor = ancestor.parentElement;
     }
   };
 }
 
-export function realChildren() {
+export function realChildren(selector) {
+  selector = selector || "*";
+  
   function* getChildren(el) {
     for (var i = 0, max = el.children.length; i < max; i++) {
       let child = el.children[i];
       if (child.getAttribute("role") === "presentation") {
         yield* getChildren(child);
-      } else {
+      } else if (matches(selector, child)) {
         yield child;
       }
     }
@@ -58,10 +59,12 @@ export function realChildren() {
   };
 }
 
-export function realParent() {
+export function realParent(selector) {
+  selector = selector || "*";
+  
   return function (el) {
     while (el = el.parentElement) {
-      if (el.getAttribute("role") !== "presentation") {
+      if (el.getAttribute("role") !== "presentation" && matches(selector, el)) {
         return el;
       }
     }

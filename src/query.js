@@ -52,8 +52,13 @@ export default function query(selection) {
 
   var q = {};
 
-  q.each = function (fn) {
-    selection = each(fn, selection);
+  q.each = function (fn, includeLockedElements) {
+    if (includeLockedElements) {
+      selection = each(fn, selection);
+    } else {
+      selection = each(fn, filter(":not([data-jsua-style-locked])", selection));
+    }
+    
     return q;
   };
 
