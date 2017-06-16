@@ -59,6 +59,26 @@ export function realChildren(selector) {
   };
 }
 
+export function children(selector) {
+  selector = selector || "*";
+  
+  function* getChildren(el) {
+    for (var i = 0, max = el.children.length; i < max; i++) {
+      let child = el.children[i];
+      if (matches(selector, child)) {
+        yield child;
+      }
+    }
+  }
+
+  return function (el) {
+    // We can't return the iterable directly,
+    // because it's possible that the structure changes
+    // as a result of styling.
+    return Array.from(getChildren(el));
+  };
+}
+
 export function realParent(selector) {
   selector = selector || "*";
   
@@ -70,5 +90,23 @@ export function realParent(selector) {
     }
 
     return null;
+  };
+}
+
+export function parent(selector) {
+  selector = selector || "*";
+  
+  return function (el) {
+    if (el.parentElement && matches(selector, el.parentElement)) {
+      return el.parentElement;
+    }
+
+    return null;
+  };
+}
+
+export function slot(name) {
+  return function (el) {
+    return el.jsuaStyleGetSlot && el.jsuaStyleGetSlot(name);
   };
 }

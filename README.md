@@ -70,6 +70,36 @@ query(element).filter(el => el.id === "one").each(el => console.log(`Selected "$
 
 ```
 
+In most cases, rather than chaining a `filter` function to a query, it makes sense to do
+a simple `filter` operation (or many consecutive `filter` operations) while maintaining the original 
+context. This can be done with the standalone `filter` function.
+
+```js
+
+var parent = document.createElement("div");
+parent.id = "parent";
+parent.innerHTML = `
+<div id="one"></div>
+<div id="two"></div>
+<div id="three"></div>
+`;
+
+query(parent).map(mappers.children()).each([
+  filter("#one", el => console.log(`Selected "${el.id}"`)),
+  filter("#two", el => console.log(`Selected "${el.id}"`)),
+  filter("#three", el => console.log(`Selected "${el.id}"`))
+]);
+
+// => Selected "one"
+// => Selected "two"
+// => Selected "three"
+
+query(parent.firstElementChild).map(el => el.parent).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "parent"
+
+```
+
 ### Selectors
 
 In addition to standard CSS selectors for `select` or `filter` operations, `jsua-style` includes the following predicate
@@ -207,6 +237,36 @@ query(parent.firstElementChild).map(el => el.parent).each(el => console.log(`Sel
 
 ```
 
+In most cases, rather than chaining a `map` function to a query, it makes sense to do
+a simple `map` operation (or many consecutive `map` operations) while maintaining the original 
+context. This can be done with the standalone `map` function.
+
+```js
+
+var parent = document.createElement("div");
+parent.id = "parent";
+parent.innerHTML = `
+<div id="one"></div>
+<div id="two"></div>
+<div id="three"></div>
+`;
+
+query(parent).each([
+  map("#one", el => console.log(`Selected "${el.id}"`)),
+  map("#two", el => console.log(`Selected "${el.id}"`)),
+  map("#three", el => console.log(`Selected "${el.id}"`))
+]);
+
+// => Selected "one"
+// => Selected "two"
+// => Selected "three"
+
+query(parent.firstElementChild).map(el => el.parent).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "parent"
+
+```
+
 ### Mappers
 
 The `map` function will take any element or iterable of elements. The `jsua-style`
@@ -220,7 +280,30 @@ All mappers are used as follows:
 query(element).map(mappers.ancestors());
 ```
 
-You can map to "real" (non-presentational) children:
+#### children
+
+```js
+var parent = document.createElement("div");
+parent.id = "parent";
+parent.innerHTML = `
+<div id="one"></div>
+<div id="two"></div>
+<div id="three"></div>
+`;
+
+query(parent).map(mappers.children()).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "one"
+// => Selected "two"
+// => Selected "three"
+
+// Include an inline filter
+query(parent).map(mappers.children("#two")).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "two"
+```
+
+#### realChildren
 
 ```js
 var parent = document.createElement("div");
@@ -249,7 +332,28 @@ query(parent).map(mappers.realChildren("#two")).each(el => console.log(`Selected
 // => Selected "two"
 ```
 
-You can map to the "real" (non-presentational) parent:
+#### parent
+
+```js
+var parent = document.createElement("div");
+parent.id = "parent";
+parent.innerHTML = `
+<div id="one"></div>
+<div id="two"></div>
+<div id="three"></div>
+`;
+
+query(parent).select("#two").map(parent()).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "parent"
+
+// Include an inline filter
+query(parent).select("#two").map(parent("#parent")).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "parent"
+```
+
+#### realParent
 
 ```js
 var parent = document.createElement("div");
@@ -276,7 +380,7 @@ query(parent).select("#two").map(mappers.realParent("#parent")).each(el => conso
 // => Selected "parent"
 ```
 
-You can map to ancestors:
+#### ancestors
 
 ```js
 var parent = document.createElement("div");
@@ -298,7 +402,7 @@ query(parent).select("#two").map(ancestors("#root")).each(el => console.log(`Sel
 // => Selected "root"
 ```
 
-You can map to previous and next siblings:
+#### previousSiblings and nextSiblings
 
 ```js
 var parent = document.createElement("div");
@@ -319,6 +423,18 @@ query(parent).select("#three").map(previousSiblings()).each(el => console.log(`S
 query(parent).select("#two").map(nextSiblings("#four")).each(el => console.log(`Selected "${el.id}"`));
 
 // => Selected "four"
+```
+
+#### slot
+
+You can map to a component's named slot (see "Components" below).
+
+```js
+query(component).each([
+  map(slot("header"), [
+    el => el.style.borderBottom = "1px solid #cccccc"
+  ])
+]);
 ```
 
 Managing State

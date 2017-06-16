@@ -25,12 +25,12 @@ describe("when creating a component", function () {
       element = document.createElement("div");
       element.innerHTML = `
         <div id="childWithNoSpecifiedSlot"></div>
-        <div data-jsua-style-slot-name="label"></div>
+        <div data-jsua-style-slot-name="footer"></div>
       `;
 
       var innerHTML = `
       <div role="presentation" data-jsua-style-slot="content"></div>
-      <div role="presentation" data-jsua-style-slot="label"></div>
+      <div role="presentation" data-jsua-style-slot="footer"></div>
       `;
 
       query(element).each([
@@ -47,7 +47,7 @@ describe("when creating a component", function () {
     });
 
     it("should add children with a slot name to the appropriate slot", function () {
-      element.lastElementChild.firstElementChild.getAttribute("data-jsua-style-slot-name").should.equal("label");
+      element.lastElementChild.firstElementChild.getAttribute("data-jsua-style-slot-name").should.equal("footer");
     });
   });
 

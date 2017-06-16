@@ -18,6 +18,10 @@ import {
 export default function component(name, innerHTML) {
   return function (element) {
     var slots = {};
+    
+    element.jsuaStyleGetSlot = function (name) {
+      return slots[name];
+    };
 
     function addToSlot(el) {
       var slotName = el.getAttribute("data-jsua-style-slot-name") || "content";
