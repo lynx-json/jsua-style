@@ -3,7 +3,8 @@ const chai = require("chai");
 const should = chai.should();
 import {
   query,
-  component
+  component,
+  slot
 } from "../src";
 
 describe("when creating a component", function () {
@@ -68,9 +69,7 @@ describe("when creating a component", function () {
 
       query(element).each([
         component("material-card", innerHTML),
-        el => query(child).each([
-          component.slot("material-card", "label")
-        ])
+        slot("label", () => child)
       ]);
     });
 
@@ -96,9 +95,7 @@ describe("when creating a component", function () {
 
       query(element).each([
         component("material-card", innerHTML),
-        el => query(child).each([
-          component.slot("material-card", "label")
-        ])
+        slot("label", el => child)
       ]);
     });
 

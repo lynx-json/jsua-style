@@ -16,12 +16,14 @@ export default function component(name, innerHTML) {
     
     var existingGetSlotFn = element.jsuaStyleGetSlot;
     
-    element.jsuaStyleGetSlot = function (componentName, slotName) {
+    element.jsuaStyleGetSlot = function (slotName, componentName) {
+      if (!componentName && slots[slotName]) return slots[slotName];
+      
       if (componentName === name) {
         return slots[slotName];
       }
       
-      if (existingGetSlotFn) return existingGetSlotFn(componentName, slotName);
+      if (existingGetSlotFn) return existingGetSlotFn(slotName, componentName);
     };
 
     function addToSlot(el) {
@@ -38,6 +40,8 @@ export default function component(name, innerHTML) {
         slot.appendChild(el);
       }
     }
+    
+    element.jsuaStyleAddToSlot = addToSlot;
 
     if (innerHTML) {
       var componentTemplate = document.createElement("div");
@@ -68,6 +72,7 @@ export default function component(name, innerHTML) {
   };
 }
 
+// TODO: Remove this and all references. Deprecated in favor of the slot function.
 component.slot = function (componentName, slotName) {
   return function (element) {
     element.setAttribute("data-jsua-style-slot-name", slotName);

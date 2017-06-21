@@ -12,6 +12,7 @@ const filters = selectors;
 
 import context from "./context";
 import component from "./component";
+import slot from "./slot";
 import lock from "./lock";
 import map from "./map";
 import filter from "./filter";
@@ -29,5 +30,6 @@ export {
   selectors,
   filters,
   component,
+  slot,
   lock
 };

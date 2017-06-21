@@ -431,7 +431,18 @@ You can map to a component's named slot (see "Components" below).
 
 ```js
 query(component).each([
-  map(mappers.slot("material-grid", "header"), [
+  map(mappers.slot("header"), [
+    el => el.style.borderBottom = "1px solid #cccccc"
+  ])
+]);
+```
+
+In the case where an element uses more than one component, you can pass the
+name of the component as a second parameter.
+
+```js
+query(component).each([
+  map(mappers.slot("header", "material-card"), [
     el => el.style.borderBottom = "1px solid #cccccc"
   ])
 ]);
@@ -523,7 +534,8 @@ We could also have added an element to a specific slot after the component had
 been created.
 
 ```js
-query(childElement).each([
-  component.slot("material-card", "label")
+var mapHeader = mappers.realChildren("[data-lynx-hints~=header]");
+query(component).each([
+  slot("header", mapHeader)
 ]);
 ```

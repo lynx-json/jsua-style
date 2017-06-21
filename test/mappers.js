@@ -269,7 +269,7 @@ describe("when mapping to a slot", function () {
     query(element).each(component("test-component", innerHTML));
 
     results = [];
-    query(element).map(mappers.slot("test-component", "header")).each(el => results.push(el));
+    query(element).map(mappers.slot("header")).each(el => results.push(el));
   });
   
   it("should select the component's slot by that name", function () {
@@ -277,7 +277,7 @@ describe("when mapping to a slot", function () {
     results[0].should.equal(element.firstElementChild);
   });
   
-  describe("when the element is multiple components", function () {
+  describe("when the element uses multiple components", function () {
     beforeEach(function () {
       var innerHTML = `
       <div data-jsua-style-slot="header" id="three"></div>
@@ -286,8 +286,8 @@ describe("when mapping to a slot", function () {
       
       query(element).each(component("test-component-two", innerHTML));
       results = [];
-      query(element).map(mappers.slot("test-component", "header")).each(el => results.push(el));
-      query(element).map(mappers.slot("test-component-two", "header")).each(el => results.push(el));
+      query(element).map(mappers.slot("header", "test-component")).each(el => results.push(el));
+      query(element).map(mappers.slot("header", "test-component-two")).each(el => results.push(el));
     });
     
     it("should select the slot for the requested component", function () {

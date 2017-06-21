@@ -105,9 +105,9 @@ export function parent(selector) {
   };
 }
 
-export function slot(componentName, slotName) {
+export function slot(slotName, componentName) {
   return function (el) {
-    return el.jsuaStyleGetSlot && el.jsuaStyleGetSlot(componentName, slotName);
+    return el.jsuaStyleGetSlot && el.jsuaStyleGetSlot(slotName, componentName);
   };
 }
 
