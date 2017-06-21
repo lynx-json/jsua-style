@@ -201,3 +201,22 @@ describe("when selecting the `first` element", function () {
     });
   });
 });
+
+describe("when selecting elements that do not match another selector", function () {
+  var element, results;
+  beforeEach(function () {
+    element = document.createElement("div");
+    element.innerHTML = `
+    <div class="match"></div>
+    <div class="match"></div>
+    `;
+
+    results = [];
+    query(element).select(selectors.not(".match")).each(el => results.push(el));
+  });
+
+  it("should select the first element matching the selection", function () {
+    results.length.should.equal(1);
+    results[0].should.equal(element);
+  });
+});

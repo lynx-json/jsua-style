@@ -326,7 +326,7 @@ query(parent).map(mappers.realChildren()).each(el => console.log(`Selected "${el
 // => Selected "two"
 // => Selected "three"
 
-// Include an inline filter
+// Include a filter parameter
 query(parent).map(mappers.realChildren("#two")).each(el => console.log(`Selected "${el.id}"`));
 
 // => Selected "two"
@@ -343,12 +343,12 @@ parent.innerHTML = `
 <div id="three"></div>
 `;
 
-query(parent).select("#two").map(parent()).each(el => console.log(`Selected "${el.id}"`));
+query(parent).select("#two").map(mappers.parent()).each(el => console.log(`Selected "${el.id}"`));
 
 // => Selected "parent"
 
-// Include an inline filter
-query(parent).select("#two").map(parent("#parent")).each(el => console.log(`Selected "${el.id}"`));
+// Include a filter parameter
+query(parent).select("#two").map(mappers.parent("#parent")).each(el => console.log(`Selected "${el.id}"`));
 
 // => Selected "parent"
 ```
@@ -370,11 +370,11 @@ parent.innerHTML = `
 <div id="three"></div>
 `;
 
-query(parent).select("#two").map(realParent()).each(el => console.log(`Selected "${el.id}"`));
+query(parent).select("#two").map(mappers.realParent()).each(el => console.log(`Selected "${el.id}"`));
 
 // => Selected "parent"
 
-// Include an inline filter
+// Include a filter parameter
 query(parent).select("#two").map(mappers.realParent("#parent")).each(el => console.log(`Selected "${el.id}"`));
 
 // => Selected "parent"
@@ -391,13 +391,13 @@ parent.innerHTML = `
 </div>
 `;
 
-query(parent).select("#two").map(ancestors()).each(el => console.log(`Selected "${el.id}"`));
+query(parent).select("#two").map(mappers.ancestors()).each(el => console.log(`Selected "${el.id}"`));
 
 // => Selected "one"
 // => Selected "root"
 
 // Include an inline filter
-query(parent).select("#two").map(ancestors("#root")).each(el => console.log(`Selected "${el.id}"`));
+query(parent).select("#two").map(mappers.ancestors("#root")).each(el => console.log(`Selected "${el.id}"`));
 
 // => Selected "root"
 ```
@@ -414,13 +414,13 @@ parent.innerHTML = `
 <div id="four"></div>
 `;
 
-query(parent).select("#three").map(previousSiblings()).each(el => console.log(`Selected "${el.id}"`));
+query(parent).select("#three").map(mappers.previousSiblings()).each(el => console.log(`Selected "${el.id}"`));
 
 // => Selected "two"
 // => Selected "one"
 
-// Include an inline filter
-query(parent).select("#two").map(nextSiblings("#four")).each(el => console.log(`Selected "${el.id}"`));
+// Include a filter parameter
+query(parent).select("#two").map(mappers.nextSiblings("#four")).each(el => console.log(`Selected "${el.id}"`));
 
 // => Selected "four"
 ```
@@ -431,8 +431,20 @@ You can map to a component's named slot (see "Components" below).
 
 ```js
 query(component).each([
-  map(slot("header"), [
+  map(mappers.slot("material-grid", "header"), [
     el => el.style.borderBottom = "1px solid #cccccc"
+  ])
+]);
+```
+
+#### wrapper
+
+You can wrap an element and return the wrapper.
+
+```js
+query(el).each([
+  map(mappers.wrapper(), [
+    el => el.style.padding = "20px"
   ])
 ]);
 ```

@@ -1,8 +1,3 @@
-// import {
-//   raiseEvent
-// } from "./util";
-// 
-
 import query from "./query";
 import {
   first
@@ -19,8 +14,14 @@ export default function component(name, innerHTML) {
   return function (element) {
     var slots = {};
     
-    element.jsuaStyleGetSlot = function (name) {
-      return slots[name];
+    var existingGetSlotFn = element.jsuaStyleGetSlot;
+    
+    element.jsuaStyleGetSlot = function (componentName, slotName) {
+      if (componentName === name) {
+        return slots[slotName];
+      }
+      
+      if (existingGetSlotFn) return existingGetSlotFn(componentName, slotName);
     };
 
     function addToSlot(el) {

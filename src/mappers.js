@@ -105,8 +105,20 @@ export function parent(selector) {
   };
 }
 
-export function slot(name) {
+export function slot(componentName, slotName) {
   return function (el) {
-    return el.jsuaStyleGetSlot && el.jsuaStyleGetSlot(name);
+    return el.jsuaStyleGetSlot && el.jsuaStyleGetSlot(componentName, slotName);
+  };
+}
+
+export function wrapper() {
+  return function (el) {
+    var wrapperElement = document.createElement("div");
+    wrapperElement.setAttribute("role", "presentation");
+    
+    el.parentElement.replaceChild(wrapperElement, el);
+    wrapperElement.appendChild(el);
+    
+    return wrapperElement;
   };
 }

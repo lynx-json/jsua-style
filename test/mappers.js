@@ -4,6 +4,7 @@ const should = chai.should();
 import {
   query,
   mappers,
+  map,
   component
 } from "../src";
 
@@ -261,18 +262,72 @@ describe("when mapping to a slot", function () {
     element = document.createElement("div");
 
     var innerHTML = `
-    <div data-jsua-style-slot="header"></div>
-    <div data-jsua-style-slot="footer"></div>
+    <div data-jsua-style-slot="header" id="one"></div>
+    <div data-jsua-style-slot="footer" id="two"></div>
     `;
     
     query(element).each(component("test-component", innerHTML));
 
     results = [];
-    query(element).map(mappers.slot("header")).each(el => results.push(el));
+    query(element).map(mappers.slot("test-component", "header")).each(el => results.push(el));
   });
   
-  it("should select the element's parent element", function () {
+  it("should select the component's slot by that name", function () {
     results.length.should.equal(1);
     results[0].should.equal(element.firstElementChild);
+  });
+  
+  describe("when the element is multiple components", function () {
+    beforeEach(function () {
+      var innerHTML = `
+      <div data-jsua-style-slot="header" id="three"></div>
+      <div data-jsua-style-slot="footer" id="four"></div>
+      `;
+      
+      query(element).each(component("test-component-two", innerHTML));
+      results = [];
+      query(element).map(mappers.slot("test-component", "header")).each(el => results.push(el));
+      query(element).map(mappers.slot("test-component-two", "header")).each(el => results.push(el));
+    });
+    
+    it("should select the slot for the requested component", function () {
+      results.length.should.equal(2);
+      results[0].id.should.equal("one");
+      results[1].id.should.equal("three");
+    });
+  });
+});
+
+describe("when mapping to a wrapper", function () {
+  var element, results;
+  beforeEach(function () {
+    element = document.createElement("div");
+
+    element.innerHTML = `
+    <div id="one"></div>
+    <div id="two"></div>
+    `;
+    
+    results = [];
+    query(element).map(mappers.children()).each([
+      map(mappers.wrapper(), [
+        el => results.push(el)
+      ])
+    ]);
+  });
+  
+  it("should wrap each selected element", function () {
+    results[0].should.equal(element.querySelector("#one").parentElement);
+    results[1].should.equal(element.querySelector("#two").parentElement);
+  });
+  
+  it("should replace each selected element with its new wrapper", function () {
+    results[0].should.equal(element.firstElementChild);
+    results[1].should.equal(element.lastElementChild);
+  });
+  
+  it("should give each wrapper a role of `presentation`", function () {
+    results[0].getAttribute("role").should.equal("presentation");
+    results[1].getAttribute("role").should.equal("presentation");
   });
 });

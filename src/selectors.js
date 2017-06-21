@@ -21,13 +21,17 @@ export function firstChild(selector) {
   };
 }
 
-// export function not(selector) {
-//   selector = selector || "*";
-// 
-//   return function (element) {
-//     
-//   };
-// }
+export function not(selector) {
+  selector = selector || "*";
+
+  return function (element) {
+    if (matches(selector, element)) {
+      return false;
+    }
+    
+    return true;
+  };
+}
 
 export function lastChild(selector) {
   selector = selector || "*";
