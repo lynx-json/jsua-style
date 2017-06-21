@@ -174,6 +174,12 @@ describe("when querying", function () {
       element.children[1].children[0].selected.should.equal(true);
       (!!element.selected).should.equal(false);
     });
+    
+    it("should not execute a null or undefined mapping function", function () {
+      var element = document.createElement("div");
+      query(element).map(null).each(el => el.selected = true);
+      (!!element.selected).should.equal(false);
+    });
   });
 
   describe("and iterating over each selected element", function () {

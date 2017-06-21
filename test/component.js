@@ -95,7 +95,7 @@ describe("when creating a component", function () {
 
       query(element).each([
         component("material-card", innerHTML),
-        slot("label", el => child)
+        slot("label", () => child)
       ]);
     });
 

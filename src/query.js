@@ -37,6 +37,8 @@ function* select(selector, selection) {
 }
 
 function* map(fn, selection) {
+  if (fn === null || fn === undefined) return;
+   
   for (var e of selection) {
     let result = fn(e);
     if (!result) continue;

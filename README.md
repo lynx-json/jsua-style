@@ -539,3 +539,5 @@ query(component).each([
   slot("header", mapHeader)
 ]);
 ```
+
+For more on [Authoring Components](https://github.com/lynx-json/jsua-style/wiki/authoring-components) visit the [wiki](https://github.com/lynx-json/jsua-style/wiki).
