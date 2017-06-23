@@ -37,6 +37,20 @@ export function ancestors(selector) {
   };
 }
 
+export function descendants(selector) {
+  selector = selector || "*";
+  
+  return function* (el) {
+    if (typeof selector === "function") {
+      for (let descendant of el.querySelectorAll("*")) {
+        if (selector(descendant)) yield descendant;
+      }
+    } else {
+      yield* el.querySelectorAll(selector);
+    }
+  };
+}
+
 export function realChildren(selector) {
   selector = selector || "*";
   

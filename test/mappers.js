@@ -112,6 +112,44 @@ describe("when mapping ancestors", function () {
   });
 });
 
+describe("when mapping descendants", function () {
+  var element, results;
+  beforeEach(function () {
+    element = document.createElement("div");
+    element.id = "one";
+
+    element.innerHTML = `
+    <div id="two">
+      <div id="three"></div>
+    </div>
+    <div id="four">
+      <div id="five"></div>
+    </div>
+    `;
+
+    results = [];
+    query(element).map(mappers.descendants()).each(el => results.push(el));
+  });
+  it("should select all descendants in document order", function () {
+    results.length.should.equal(4);
+    results[0].id.should.equal("two");
+    results[1].id.should.equal("three");
+    results[2].id.should.equal("four");
+    results[3].id.should.equal("five");
+  });
+  
+  describe("when including a filter", function () {
+    beforeEach(function () {
+      results = [];
+      query(element).map(mappers.descendants("#two")).each(el => results.push(el));
+    });
+    
+    it("should return the filtered results", function () {
+      results[0].id.should.equal("two");
+    });
+  });
+});
+
 describe("when mapping real children", function () {
   var element, results;
   beforeEach(function () {

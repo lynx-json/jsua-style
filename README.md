@@ -402,6 +402,28 @@ query(parent).select("#two").map(mappers.ancestors("#root")).each(el => console.
 // => Selected "root"
 ```
 
+#### descendants
+
+```js
+var parent = document.createElement("div");
+parent.id = "root";
+parent.innerHTML = `
+<div id="one">
+  <div id="two"></div>
+</div>
+`;
+
+query(parent).map(mappers.descendants()).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "one"
+// => Selected "two"
+
+// Include an inline filter
+query(parent).map(mappers.descendants("#one")).each(el => console.log(`Selected "${el.id}"`));
+
+// => Selected "one"
+```
+
 #### previousSiblings and nextSiblings
 
 ```js
