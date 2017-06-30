@@ -1,11 +1,13 @@
 import {matches} from "./util";
 
-export function previousSiblings() {
+export function previousSiblings(selector) {
+  selector = selector || "*";
+  
   return function* (el) {
     var previousSibling = el.previousElementSibling;
 
     while (previousSibling) {
-      yield previousSibling;
+      if (matches(selector, previousSibling)) yield previousSibling;
       previousSibling = previousSibling.previousElementSibling;
     }
   };
@@ -100,6 +102,8 @@ export function realParent(selector) {
     while (el = el.parentElement) {
       if (el.getAttribute("role") !== "presentation" && matches(selector, el)) {
         return el;
+      } else if (el.getAttribute("role") !== "presentation") {
+        break;
       }
     }
 

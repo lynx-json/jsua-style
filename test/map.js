@@ -10,7 +10,7 @@ describe("when mapping to a related element", function () {
   beforeEach(function () {
     element = document.createElement("div");
     element.innerHTML = `
-      <div data-jsua-style-locked="true"></div>
+      <div></div>
     `;
     
     query(element)
@@ -22,10 +22,6 @@ describe("when mapping to a related element", function () {
   });
   
   it("should apply styles to the mapped element", function () {
-    element.firstElementChild.selected.should.be.true;
-  });
-  
-  it("should apply styles even to locked elements", function () {
     element.firstElementChild.selected.should.be.true;
   });
 });

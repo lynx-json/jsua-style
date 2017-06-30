@@ -10,7 +10,7 @@ describe("when applying style to a filtered selection", function () {
   beforeEach(function () {
     element = document.createElement("div");
     element.innerHTML = `
-      <div data-jsua-style-locked="true" id="one"></div>
+      <div id="one"></div>
       <div id="two"></div>
     `;
     
@@ -27,9 +27,5 @@ describe("when applying style to a filtered selection", function () {
   it("should apply styles only to the filtered elements", function () {
     element.firstElementChild.selected.should.be.true;
     should.not.exist(element.lastElementChild.selected);
-  });
-  
-  it("should apply styles even to locked elements", function () {
-    element.firstElementChild.selected.should.be.true;
   });
 });

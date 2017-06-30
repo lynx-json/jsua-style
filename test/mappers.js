@@ -33,10 +33,11 @@ describe("when mapping next siblings", function () {
   describe("when including a filter", function () {
     beforeEach(function () {
       results = [];
-      query(element).select("*").map(mappers.nextSiblings("#five")).each(el => results.push(el));
+      query(element).select("#two").map(mappers.nextSiblings("#five")).each(el => results.push(el));
     });
     
     it("should return the filtered results", function () {
+      results.length.should.equal(1);
       results[0].id.should.equal("five");
     });
   });
@@ -67,10 +68,11 @@ describe("when mapping previous siblings", function () {
   describe("when including a filter", function () {
     beforeEach(function () {
       results = [];
-      query(element).select("*").map(mappers.previousSiblings("#two")).each(el => results.push(el));
+      query(element).select("#five").map(mappers.previousSiblings("#two")).each(el => results.push(el));
     });
     
     it("should return the filtered results", function () {
+      results.length.should.equal(1);
       results[0].id.should.equal("two");
     });
   });
@@ -224,13 +226,13 @@ describe("when mapping the real parent", function () {
   var element, results;
   beforeEach(function () {
     element = document.createElement("div");
-    element.id = "one";
+    element.id = "root";
 
     element.innerHTML = `
     <div role="presentation">
       <div id="one"></div>
     </div>
-    <div role="presentation">
+    <div>
       <div role="presentation">
         <div id="two"></div>
       </div>
@@ -238,8 +240,9 @@ describe("when mapping the real parent", function () {
     `;
 
     results = [];
-    query(element).select("#one").map(mappers.realParent()).each(el => results.push(el));
+    query(element).select("#one, #two").map(mappers.realParent("#root")).each(el => results.push(el));
   });
+  
   it("should select ancestors separated from the element by only presentational elements", function () {
     results.length.should.equal(1);
     results[0].should.equal(element);

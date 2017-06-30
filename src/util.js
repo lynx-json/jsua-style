@@ -3,6 +3,10 @@ export function executeFunctionOrArrayOfFunctions(fn, element, evt) {
     return fn.forEach(f => executeFunctionOrArrayOfFunctions(f, element, evt));
   }
 
+  if (typeof fn !== "function") {
+    console.error("Attempting to execute a non-function:", fn);
+  }
+  
   fn(element, evt);
 }
 

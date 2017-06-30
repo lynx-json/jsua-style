@@ -237,34 +237,6 @@ describe("when querying", function () {
       element.children[1].selected.should.equal(true);
       (!!element.selected).should.equal(false);
     });
-    
-    it("should not act on locked elements, by default", function () {
-      var results = [];
-      var element = document.createElement("div");
-      element.innerHTML = `
-        <div data-jsua-style-locked="true"><div></div></div>
-        <div><div data-jsua-style-locked="true"></div></div>
-      `;
-
-      query(element).select("*").each(el => results.push(el));
-      results[0].should.equal(element);
-      results[1].should.equal(element.children[0].children[0]);
-      results[2].should.equal(element.children[1]);
-      results.length.should.equal(3);
-    });
-    
-    it("should act on locked elements if specified", function () {
-      var results = [];
-      var element = document.createElement("div");
-      element.innerHTML = `
-        <div data-jsua-style-locked="true"><div></div></div>
-        <div><div data-jsua-style-locked="true"></div></div>
-      `;
-
-      var actOnLockedElements = true;
-      query(element).select("*").each(el => results.push(el), actOnLockedElements);
-      results.length.should.equal(5);
-    });
   });
 
   describe("and converting a selection to an array", function () {

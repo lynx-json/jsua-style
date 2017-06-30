@@ -40,6 +40,10 @@ function* map(fn, selection) {
   if (fn === null || fn === undefined) return;
    
   for (var e of selection) {
+    if (typeof fn !== "function") {
+      console.error("Attempting to map using a non-function:", fn);
+    }
+    
     let result = fn(e);
     if (!result) continue;
     if (result.tagName) yield result;
@@ -54,12 +58,8 @@ export default function query(selection) {
 
   var q = {};
 
-  q.each = function (fn, includeLockedElements) {
-    if (includeLockedElements) {
-      selection = each(fn, selection);
-    } else {
-      selection = each(fn, filter(":not([data-jsua-style-locked])", selection));
-    }
+  q.each = function (fn) {
+    selection = each(fn, selection);
     
     return q;
   };
