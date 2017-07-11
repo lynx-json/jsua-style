@@ -159,6 +159,6 @@ export function hasRealParent(selector) {
 
 export function isHidden() {
   return function (element) {
-    return element.offsetWidth === 0;
+    return element.jsuaStyleHasState && element.jsuaStyleHasState("visibility", "hidden");
   }
 }

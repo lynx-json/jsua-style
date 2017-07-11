@@ -1,4 +1,35 @@
 import {matches} from "./util";
+import query from "./query";
+
+//TODO: Test
+export function previousSibling(selector) {
+  selector = selector || "*";
+  
+  return function (el) {
+    var previousSibling = el.previousElementSibling;
+    
+    if (previousSibling && matches(selector, previousSibling)) {
+      return previousSibling;
+    }
+  };
+}
+
+// TODO: Test
+export function previousRealSibling(selector) {
+  selector = selector || "*";
+  
+  return function (el) {
+    var siblings = query(el).map(realParent()).map(realChildren()).toArray();
+    
+    if (siblings.length > 0) {
+      let index = siblings.indexOf(el);
+      var matches = query(siblings).filter(el => siblings.indexOf(el) < index).filter(selector).toArray();
+      if (matches.length > 0) {
+        return matches[matches.length - 1];
+      }
+    }
+  }
+}
 
 export function previousSiblings(selector) {
   selector = selector || "*";
@@ -11,6 +42,36 @@ export function previousSiblings(selector) {
       previousSibling = previousSibling.previousElementSibling;
     }
   };
+}
+
+// TODO: Test
+export function nextSibling(selector) {
+  selector = selector || "*";
+  
+  return function (el) {
+    var nextSibling = el.nextElementSibling;
+    
+    if (nextSibling && matches(selector, nextSibling)) {
+      return nextSibling;
+    }
+  };
+}
+
+// TODO: Test
+export function nextRealSibling(selector) {
+  selector = selector || "*";
+  
+  return function (el) {
+    var siblings = query(el).map(realParent()).map(realChildren()).toArray();
+    
+    if (siblings.length > 0) {
+      let index = siblings.indexOf(el);
+      var matches = query(siblings).filter(el => siblings.indexOf(el) > index).filter(selector).toArray();
+      if (matches.length > 0) {
+        return matches[0];
+      }
+    }
+  }
 }
 
 export function nextSiblings(selector) {
@@ -138,5 +199,19 @@ export function wrapper() {
     wrapperElement.appendChild(el);
     
     return wrapperElement;
+  };
+}
+
+export function first(mapper) {
+  return function (el) {
+    var matches = query(el).map(mapper).toArray();
+    return matches.length > 0 && matches[0];
+  };
+}
+
+export function last(mapper) {
+  return function (el) {
+    var matches = query(el).map(mapper).toArray();
+    return matches.length > 0 && matches[matches.length - 1];
   };
 }
