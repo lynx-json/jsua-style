@@ -7,7 +7,8 @@ import {
   on,
   setState,
   clearState,
-  when
+  when,
+  whenNot
 } from "../src";
 
 describe("when setting state", function () {
@@ -97,6 +98,7 @@ describe("when applying conditional style", function () {
       query(element).each([
         when("other", el => el.hasHoverStyle = false),
         when("hover", el => el.hasHoverStyle = true),
+        whenNot("hover", el => el.doesNotHaveHoverStyle = true),
         setState("hover"),
         setState("other"),
         clearState("hover"),
@@ -105,6 +107,10 @@ describe("when applying conditional style", function () {
 
     it("should not apply conditional style", function () {
       element.hasHoverStyle.should.be.false;
+    });
+
+    it("should apply 'whenNot' conditional style", function () {
+      element.doesNotHaveHoverStyle.should.be.true;
     });
   });
 

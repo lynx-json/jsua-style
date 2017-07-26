@@ -78,3 +78,23 @@ export function when(state, valueOrFn, fn) {
     });
   };
 }
+
+export function whenNot(state, valueOrFn, fn) {
+  var value = true;
+  if (fn === undefined && (typeof valueOrFn === "function" || Array.isArray(valueOrFn))) {
+    fn = valueOrFn;
+  } else {
+    value = valueOrFn;
+  }
+
+  return function (element) {
+    if (!element.jsuaStyleHasState || !element.jsuaStyleHasState(state, value)) {
+      executeFunctionOrArrayOfFunctions(fn, element);
+    }
+    element.addEventListener("jsua-style-state-change", function (e) {
+      if (!element.jsuaStyleHasState(state, value)) {
+        executeFunctionOrArrayOfFunctions(fn, element, e);
+      }
+    });
+  };
+}

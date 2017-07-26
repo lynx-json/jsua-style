@@ -3,7 +3,8 @@ import on from "./on";
 import {
   setState,
   clearState,
-  when
+  when,
+  whenNot
 } from "./state";
 
 import * as mappers from "./mappers";
@@ -24,6 +25,7 @@ export {
   setState,
   clearState,
   when,
+  whenNot,
   mappers,
   map,
   filter,
