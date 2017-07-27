@@ -1,5 +1,5 @@
 import query from "./query";
-import on from "./on";
+import { on, off } from "./on";
 import {
   setState,
   clearState,
@@ -22,6 +22,7 @@ export {
   context,
   query,
   on,
+  off,
   setState,
   clearState,
   when,

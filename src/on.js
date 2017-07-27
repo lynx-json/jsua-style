@@ -1,9 +1,29 @@
 import { executeFunctionOrArrayOfFunctions } from "./util";
 
-export default function on(name, fn) {
+export function on(name, fn) {
   return function (el) {
-    el.addEventListener(name, function (e) {
+    function handler(e) {
       executeFunctionOrArrayOfFunctions(fn, el, e);
-    });
+    }
+
+    var previousFn = el[`jsuaStyleOff${name}`];
+
+    el[`jsuaStyleOff${name}`] = function () {
+      el.removeEventListener(name, handler);
+
+      if (previousFn) {
+        previousFn();
+      }
+    }
+
+    el.addEventListener(name, handler);
+  };
+}
+
+export function off(name) {
+  return function (el) {
+    if (el[`jsuaStyleOff${name}`]) {
+      el[`jsuaStyleOff${name}`]();
+    }
   };
 }

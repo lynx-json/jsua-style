@@ -661,6 +661,8 @@ query(element).each([
 ]);
 ```
 
+> You can stop responding to an event by calling `off(eventName)` (for example, `off("mouseover")`).
+
 ### Context
 
 You can add information about visual context with the `context` function.
