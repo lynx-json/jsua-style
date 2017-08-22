@@ -34,7 +34,7 @@ export function not(selector) {
     if (matches(selector, element)) {
       return false;
     }
-    
+
     return true;
   };
 }
@@ -82,42 +82,6 @@ export function first(selector) {
   }
 }
 
-// Obsolete
-export function hasChildren(selector) {
-  selector = selector || "*";
-  return function (element) {
-    var matchingChildren = children(selector)(element);
-    return matchingChildren.length > 0;
-  };
-}
-
-// Obsolete
-export function hasOneChild(selector) {
-  selector = selector || "*";
-  return function (element) {
-    var matchingChildren = children(selector)(element);
-    return matchingChildren.length === 1;
-  };
-}
-
-// Obsolete
-export function hasRealChildren(selector) {
-  selector = selector || "*";
-  return function (element) {
-    var matchingChildren = realChildren(selector)(element);
-    return matchingChildren.length > 0;
-  };
-}
-
-// Obsolete
-export function hasOneRealChild(selector) {
-  selector = selector || "*";
-  return function (element) {
-    var matchingChildren = realChildren(selector)(element);
-    return matchingChildren.length === 1;
-  };
-}
-
 export function has(mapper) {
   return function (element) {
     var matches = query(element).map(mapper).toArray();
@@ -152,7 +116,7 @@ export function hasRealParent(selector) {
   selector = selector || "*";
   return function (element) {
     var matchingParent = realParent(selector)(element);
-    
+
     return !!matchingParent;
   };
 }

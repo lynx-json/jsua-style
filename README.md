@@ -197,9 +197,9 @@ query(parent).select(first("pre")).each(el => console.log(`Selected "${el.id}"`)
 
 ```
 
-#### `hasChildren`
+#### `has`
 
-Select only elements that have children matching the selector.
+Select only elements that map to a set of related elements.
 
 ```js
 var parent = document.createElement("div");
@@ -217,16 +217,16 @@ parent.innerHTML = `
 <pre id="four"></pre>
 `;
 
-query(parent).select(hasChild("div")).each(el => console.log(`Selected "${el.id}"`));
+query(parent).select(has(mappers.children("div"))).each(el => console.log(`Selected "${el.id}"`));
 
 // => Selected "parent"
 // => Selected "three"
 
 ```
 
-#### `hasOneChild`
+#### `hasOne`
 
-Select only elements that have a single child matching the selector.
+Select only elements that map to a single related element.
 
 ```js
 var parent = document.createElement("div");
@@ -243,122 +243,11 @@ parent.innerHTML = `
 <pre id="four"></pre>
 `;
 
-query(parent).select(hasOneChild("div")).each(el => console.log(`Selected "${el.id}"`));
+query(parent).select(hasOne(mappers.children("div"))).each(el => console.log(`Selected "${el.id}"`));
 
 // => Selected "three"
 
 ```
-
-#### `hasRealChildren`
-
-Select only elements that have real children (1 or more) matching the selector.
-
-```js
-var parent = document.createElement("div");
-parent.id = "parent";
-
-parent.innerHTML = `
-<pre id="one"></pre>
-<div id="two">
-  <pre></pre>
-</div>
-<div id="three">
-  <div role="presentation"></div>
-</div>
-<pre id="four"></pre>
-`;
-
-query(parent).select(hasRealChildren("div")).each(el => console.log(`Selected "${el.id}"`));
-
-// => Selected "parent"
-
-```
-
-#### `hasOneRealChild`
-
-Select only elements that have a single, real child matching the selector.
-
-```js
-var parent = document.createElement("div");
-parent.id = "parent";
-
-parent.innerHTML = `
-<pre id="one"></pre>
-<div id="two">
-  <pre></pre>
-</div>
-<div id="three">
-  <div id="four" role="presentation">
-    <div></div>
-  </div>
-</div>
-`;
-
-query(parent).select(hasOneRealChild("div")).each(el => console.log(`Selected "${el.id}"`));
-
-// => Selected "three"
-// => Selected "four"
-
-```
-
-#### `hasParent`
-
-Select only elements whose parent matches the selector.
-
-```js
-var parent = document.createElement("div");
-parent.id = "parent";
-
-parent.innerHTML = `
-<pre id="one"></pre>
-<div id="two">
-  <pre id="three"></pre>
-</div>
-<div id="four">
-  <div id="five"></div>
-</div>
-<pre id="six"></pre>
-`;
-
-query(parent).select(hasParent("#two")).each(el => console.log(`Selected "${el.id}"`));
-
-// => Selected "three"
-
-```
-
-#### `hasRealParent`
-
-Select only elements whose real parent matches the selector.
-
-```js
-var parent = document.createElement("div");
-parent.id = "parent";
-
-parent.innerHTML = `
-<pre id="one"></pre>
-<div role="presentation" id="two">
-  <pre id="three"></pre>
-</div>
-<div role="presentation" id="four">
-  <div id="five"></div>
-</div>
-<pre id="six"></pre>
-`;
-
-query(parent).select(hasRealParent("div")).each(el => console.log(`Selected "${el.id}"`));
-
-// => Selected "one"
-// => Selected "two"
-// => Selected "three"
-// => Selected "four"
-// => Selected "five"
-// => Selected "six"
-
-```
-
-> Note that the element with ID "parent" in the last example is the "real" parent
-> of all of its descendants, either because it is the direct parent or because 
-> the only elements in between have `role=presentation`.
 
 Styling
 -------------------------------------------------
