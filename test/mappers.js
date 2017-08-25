@@ -29,13 +29,13 @@ describe("when mapping next siblings", function () {
     results[0].id.should.equal("four");
     results[1].id.should.equal("five");
   });
-  
+
   describe("when including a filter", function () {
     beforeEach(function () {
       results = [];
       query(element).select("#two").map(mappers.nextSiblings("#five")).each(el => results.push(el));
     });
-    
+
     it("should return the filtered results", function () {
       results.length.should.equal(1);
       results[0].id.should.equal("five");
@@ -64,13 +64,13 @@ describe("when mapping previous siblings", function () {
     results[0].id.should.equal("three");
     results[1].id.should.equal("two");
   });
-  
+
   describe("when including a filter", function () {
     beforeEach(function () {
       results = [];
       query(element).select("#five").map(mappers.previousSiblings("#two")).each(el => results.push(el));
     });
-    
+
     it("should return the filtered results", function () {
       results.length.should.equal(1);
       results[0].id.should.equal("two");
@@ -101,13 +101,13 @@ describe("when mapping ancestors", function () {
     results[0].id.should.equal("two");
     results[1].id.should.equal("one");
   });
-  
+
   describe("when including a filter", function () {
     beforeEach(function () {
       results = [];
       query(element).select("*").map(mappers.ancestors("#two")).each(el => results.push(el));
     });
-    
+
     it("should return the filtered results", function () {
       results[0].id.should.equal("two");
     });
@@ -139,13 +139,13 @@ describe("when mapping descendants", function () {
     results[2].id.should.equal("four");
     results[3].id.should.equal("five");
   });
-  
+
   describe("when including a filter", function () {
     beforeEach(function () {
       results = [];
       query(element).map(mappers.descendants("#two")).each(el => results.push(el));
     });
-    
+
     it("should return the filtered results", function () {
       results[0].id.should.equal("two");
     });
@@ -177,13 +177,13 @@ describe("when mapping real children", function () {
     results[0].id.should.equal("one");
     results[1].id.should.equal("two");
   });
-  
+
   describe("when including a filter", function () {
     beforeEach(function () {
       results = [];
       query(element).map(mappers.realChildren("#two")).each(el => results.push(el));
     });
-    
+
     it("should return the filtered results", function () {
       results[0].id.should.equal("two");
     });
@@ -203,19 +203,19 @@ describe("when mapping children", function () {
     results = [];
     query(element).map(mappers.children()).each(el => results.push(el));
   });
-  
+
   it("should select direct children of the element", function () {
     results.length.should.equal(2);
     results[0].id.should.equal("one");
     results[1].id.should.equal("two");
   });
-  
+
   describe("when including a filter", function () {
     beforeEach(function () {
       results = [];
       query(element).map(mappers.children("#two")).each(el => results.push(el));
     });
-    
+
     it("should return the filtered results", function () {
       results[0].id.should.equal("two");
     });
@@ -242,18 +242,18 @@ describe("when mapping the real parent", function () {
     results = [];
     query(element).select("#one, #two").map(mappers.realParent("#root")).each(el => results.push(el));
   });
-  
+
   it("should select ancestors separated from the element by only presentational elements", function () {
     results.length.should.equal(1);
     results[0].should.equal(element);
   });
-  
+
   describe("when including a filter", function () {
     beforeEach(function () {
       results = [];
       query(element).select("#one").map(mappers.realParent("#other")).each(el => results.push(el));
     });
-    
+
     it("should return the filtered results", function () {
       results.length.should.equal(0);
     });
@@ -284,13 +284,13 @@ describe("when mapping to a parent", function () {
     results.length.should.equal(1);
     results[0].should.equal(element.firstElementChild);
   });
-  
+
   describe("when including a filter", function () {
     beforeEach(function () {
       results = [];
       query(element).select("#one").map(mappers.parent(":not([role=presentation])")).each(el => results.push(el));
     });
-    
+
     it("should return the filtered results", function () {
       results.length.should.equal(0);
     });
@@ -306,31 +306,31 @@ describe("when mapping to a slot", function () {
     <div data-jsua-style-slot="header" id="one"></div>
     <div data-jsua-style-slot="footer" id="two"></div>
     `;
-    
+
     query(element).each(component("test-component", innerHTML));
 
     results = [];
     query(element).map(mappers.slot("header")).each(el => results.push(el));
   });
-  
+
   it("should select the component's slot by that name", function () {
     results.length.should.equal(1);
     results[0].should.equal(element.firstElementChild);
   });
-  
+
   describe("when the element uses multiple components", function () {
     beforeEach(function () {
       var innerHTML = `
       <div data-jsua-style-slot="header" id="three"></div>
       <div data-jsua-style-slot="footer" id="four"></div>
       `;
-      
+
       query(element).each(component("test-component-two", innerHTML));
       results = [];
       query(element).map(mappers.slot("header", "test-component")).each(el => results.push(el));
       query(element).map(mappers.slot("header", "test-component-two")).each(el => results.push(el));
     });
-    
+
     it("should select the slot for the requested component", function () {
       results.length.should.equal(2);
       results[0].id.should.equal("one");
@@ -348,7 +348,7 @@ describe("when mapping to a wrapper", function () {
     <div id="one"></div>
     <div id="two"></div>
     `;
-    
+
     results = [];
     query(element).map(mappers.children()).each([
       map(mappers.wrapper(), [
@@ -356,17 +356,17 @@ describe("when mapping to a wrapper", function () {
       ])
     ]);
   });
-  
+
   it("should wrap each selected element", function () {
     results[0].should.equal(element.querySelector("#one").parentElement);
     results[1].should.equal(element.querySelector("#two").parentElement);
   });
-  
+
   it("should replace each selected element with its new wrapper", function () {
     results[0].should.equal(element.firstElementChild);
     results[1].should.equal(element.lastElementChild);
   });
-  
+
   it("should give each wrapper a role of `presentation`", function () {
     results[0].getAttribute("role").should.equal("presentation");
     results[1].getAttribute("role").should.equal("presentation");

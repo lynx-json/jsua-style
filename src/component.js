@@ -5,7 +5,7 @@ import {
 import {
   ancestors
 } from "./mappers";
-
+import onReset from "./on-reset";
 import {
   addToken
 } from "./util";
@@ -13,16 +13,16 @@ import {
 export default function component(name, innerHTML) {
   return function (element) {
     var slots = {};
-    
+
     var existingGetSlotFn = element.jsuaStyleGetSlot;
-    
+
     element.jsuaStyleGetSlot = function (slotName, componentName) {
       if (!componentName && slots[slotName]) return slots[slotName];
-      
+
       if (componentName === name) {
         return slots[slotName];
       }
-      
+
       if (existingGetSlotFn) return existingGetSlotFn(slotName, componentName);
     };
 
@@ -40,7 +40,7 @@ export default function component(name, innerHTML) {
         slot.appendChild(el);
       }
     }
-    
+
     element.jsuaStyleAddToSlot = addToSlot;
 
     if (innerHTML) {
@@ -55,6 +55,17 @@ export default function component(name, innerHTML) {
       query(element).map(el => el.children).each(function (child) {
         children.push(child);
       });
+
+      query(element).each(onReset([
+        function clearComponentStructure(el) {
+          while (el.firstElementChild) {
+            el.removeChild(el.firstElementChild);
+          }
+
+          children.forEach(child => el.appendChild(child));
+        },
+        el => el.removeAttribute("data-jsua-style-component")
+      ]));
 
       query(children).each(el => addToSlot(el));
 

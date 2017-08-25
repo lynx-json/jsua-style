@@ -52,6 +52,36 @@ describe("when creating a component", function () {
     });
   });
 
+  describe("when the element is reset", function () {
+    beforeEach(function () {
+      element = document.createElement("div");
+      element.innerHTML = `
+        <div id="one"></div>
+        <div id="two" data-jsua-style-slot-name="header"></div>
+      `;
+
+      var innerHTML = `
+      <div role="presentation" data-jsua-style-slot="header"></div>
+      <div role="presentation" data-jsua-style-slot="content"></div>
+      `;
+
+      query(element).each([
+        component("material-card", innerHTML)
+      ]);
+
+      element.jsuaStyleReset();
+    });
+
+    it("should remove presentation-specific structure", function () {
+      element.firstElementChild.id.should.equal("one");
+      element.lastElementChild.id.should.equal("two");
+    });
+
+    it("should remove the data-jsua-style-component attribute", function () {
+      element.hasAttribute("data-jsua-style-component").should.be.false;
+    });
+  });
+
   describe("when an element is slotted after the component is created", function () {
     var child;
     beforeEach(function () {

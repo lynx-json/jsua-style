@@ -550,7 +550,8 @@ query(element).each([
 ]);
 ```
 
-> You can stop responding to an event by calling `off(eventName)` (for example, `off("mouseover")`).
+> All event handlers added with the `on` function will be removed when styling
+> is reset during responsive styling. Only use `on` during the finishing pass.
 
 ### Context
 
@@ -617,3 +618,35 @@ query(component).each([
 ```
 
 For more on [Authoring Components](https://github.com/lynx-json/jsua-style/wiki/authoring-components) visit the [wiki](https://github.com/lynx-json/jsua-style/wiki).
+
+### Responsive Styling
+
+You can register breakpoints so that some styling can be reapplied when the media context
+changes (the window matches a different set of breakpoints than before).
+
+```js
+registerBreakpoints([
+  "(min-width: 840px)",
+  "(min-width: 600px) and (max-width: 839px)",
+  "(max-width: 599px)"
+]);
+```
+
+Use the `responsive` function to identify responsive elements.
+
+```js
+[
+  responsive(),
+  el => el.style.width = "100px"
+]
+```
+
+Use the `onReset` function to add functions that should be executed prior to
+responsive styling (generally for cleanup).
+
+```js
+[
+  map(mappers.wrapper(), el => el.setAttribute("id", "wrapper")),
+  onReset(el => el.parentElement.parentElement.replaceChild(el, el.parentElement))
+]
+```

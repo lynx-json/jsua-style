@@ -33,25 +33,3 @@ describe("when responding to events on an element", function () {
     }])(element);
   });
 });
-
-describe("when no longer responding to events on an element", function () {
-  it("should no longer execute a function when the named event is raised", function () {
-    var element = document.createElement("div");
-
-    var responded = false;
-
-    on("click", (el, e) => {
-      responded = true;
-    })(element);
-
-    on("click", (el, e) => {
-      responded = true;
-    })(element);
-
-    off("click")(element);
-
-    element.click();
-
-    responded.should.be.false;
-  });
-});

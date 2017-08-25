@@ -1,13 +1,14 @@
-import {matches} from "./util";
+import { matches } from "./util";
 import query from "./query";
+import onReset from "./on-reset";
 
 //TODO: Test
 export function previousSibling(selector) {
   selector = selector || "*";
-  
+
   return function (el) {
     var previousSibling = el.previousElementSibling;
-    
+
     if (previousSibling && matches(selector, previousSibling)) {
       return previousSibling;
     }
@@ -17,10 +18,10 @@ export function previousSibling(selector) {
 // TODO: Test
 export function previousRealSibling(selector) {
   selector = selector || "*";
-  
+
   return function (el) {
     var siblings = query(el).map(realParent()).map(realChildren()).toArray();
-    
+
     if (siblings.length > 0) {
       let index = siblings.indexOf(el);
       var matches = query(siblings).filter(el => siblings.indexOf(el) < index).filter(selector).toArray();
@@ -33,7 +34,7 @@ export function previousRealSibling(selector) {
 
 export function previousSiblings(selector) {
   selector = selector || "*";
-  
+
   return function* (el) {
     var previousSibling = el.previousElementSibling;
 
@@ -47,10 +48,10 @@ export function previousSiblings(selector) {
 // TODO: Test
 export function nextSibling(selector) {
   selector = selector || "*";
-  
+
   return function (el) {
     var nextSibling = el.nextElementSibling;
-    
+
     if (nextSibling && matches(selector, nextSibling)) {
       return nextSibling;
     }
@@ -60,10 +61,10 @@ export function nextSibling(selector) {
 // TODO: Test
 export function nextRealSibling(selector) {
   selector = selector || "*";
-  
+
   return function (el) {
     var siblings = query(el).map(realParent()).map(realChildren()).toArray();
-    
+
     if (siblings.length > 0) {
       let index = siblings.indexOf(el);
       var matches = query(siblings).filter(el => siblings.indexOf(el) > index).filter(selector).toArray();
@@ -76,7 +77,7 @@ export function nextRealSibling(selector) {
 
 export function nextSiblings(selector) {
   selector = selector || "*";
-  
+
   return function* (el) {
     var nextSibling = el.nextElementSibling;
 
@@ -89,7 +90,7 @@ export function nextSiblings(selector) {
 
 export function ancestors(selector) {
   selector = selector || "*";
-  
+
   return function* (el) {
     var ancestor = el.parentElement;
 
@@ -102,7 +103,7 @@ export function ancestors(selector) {
 
 export function descendants(selector) {
   selector = selector || "*";
-  
+
   return function* (el) {
     if (typeof selector === "function") {
       for (let descendant of el.querySelectorAll("*")) {
@@ -116,7 +117,7 @@ export function descendants(selector) {
 
 export function realChildren(selector) {
   selector = selector || "*";
-  
+
   function* getChildren(el) {
     for (var i = 0, max = el.children.length; i < max; i++) {
       let child = el.children[i];
@@ -138,7 +139,7 @@ export function realChildren(selector) {
 
 export function children(selector) {
   selector = selector || "*";
-  
+
   function* getChildren(el) {
     for (var i = 0, max = el.children.length; i < max; i++) {
       let child = el.children[i];
@@ -158,7 +159,7 @@ export function children(selector) {
 
 export function realParent(selector) {
   selector = selector || "*";
-  
+
   return function (el) {
     while (el = el.parentElement) {
       if (el.getAttribute("role") !== "presentation" && matches(selector, el)) {
@@ -174,7 +175,7 @@ export function realParent(selector) {
 
 export function parent(selector) {
   selector = selector || "*";
-  
+
   return function (el) {
     if (el.parentElement && matches(selector, el.parentElement)) {
       return el.parentElement;
@@ -194,10 +195,16 @@ export function wrapper() {
   return function (el) {
     var wrapperElement = document.createElement("div");
     wrapperElement.setAttribute("role", "presentation");
-    
+
+    // Reminder. This is causing trouble.
+    onReset(function (el) {
+      if (el.parentElement === wrapperElement && wrapperElement.parentElement) {
+        wrapperElement.parentElement.replaceChild(el, wrapperElement);
+      }
+    })(el);
     el.parentElement.replaceChild(wrapperElement, el);
     wrapperElement.appendChild(el);
-    
+
     return wrapperElement;
   };
 }

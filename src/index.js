@@ -17,6 +17,9 @@ import slot from "./slot";
 import lock from "./lock";
 import map from "./map";
 import filter from "./filter";
+import responsive from "./responsive";
+import onReset from "./on-reset";
+import registerBreakpoints from "./register-breakpoints";
 
 export {
   context,
@@ -34,5 +37,8 @@ export {
   filters,
   component,
   slot,
-  lock
+  lock,
+  onReset,
+  registerBreakpoints,
+  responsive
 };

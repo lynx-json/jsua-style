@@ -102,25 +102,6 @@ export function matchesMedia(mediaQuery) {
   };
 }
 
-// Obsolete
-export function hasParent(selector) {
-  selector = selector || "*";
-  return function (element) {
-    var matchingParent = parent(selector)(element);
-    return !!matchingParent;
-  };
-}
-
-// Obsolete
-export function hasRealParent(selector) {
-  selector = selector || "*";
-  return function (element) {
-    var matchingParent = realParent(selector)(element);
-
-    return !!matchingParent;
-  };
-}
-
 export function isHidden() {
   return function (element) {
     return element.jsuaStyleHasState && element.jsuaStyleHasState("visibility", "hidden");

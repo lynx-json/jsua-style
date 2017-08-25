@@ -9,3 +9,5 @@ require("./mappers");
 require("./map");
 require("./filter");
 require("./lock");
+require("./on-reset");
+require("./responsive");

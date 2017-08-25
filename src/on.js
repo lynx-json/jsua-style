@@ -1,29 +1,14 @@
 import { executeFunctionOrArrayOfFunctions } from "./util";
 
+import onReset from "./on-reset";
+
 export function on(name, fn) {
   return function (el) {
     function handler(e) {
       executeFunctionOrArrayOfFunctions(fn, el, e);
     }
 
-    var previousFn = el[`jsuaStyleOff${name}`];
-
-    el[`jsuaStyleOff${name}`] = function () {
-      el.removeEventListener(name, handler);
-
-      if (previousFn) {
-        previousFn();
-      }
-    }
-
+    onReset(el => el.removeEventListener(name, handler))(el);
     el.addEventListener(name, handler);
-  };
-}
-
-export function off(name) {
-  return function (el) {
-    if (el[`jsuaStyleOff${name}`]) {
-      el[`jsuaStyleOff${name}`]();
-    }
   };
 }
