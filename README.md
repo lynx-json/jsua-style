@@ -650,3 +650,22 @@ responsive styling (generally for cleanup).
   onReset(el => el.parentElement.parentElement.replaceChild(el, el.parentElement))
 ]
 ```
+
+### Alternative Responsive Styling
+
+> Rather than media-specific context, select an element for styling and optionally
+> provide responsive styling. Then you don't need to re-execute finishing.
+
+```js
+select("[data-jsua-context=page] > [data-lynx-hints~=section]", lock([
+  matches("(min-width: 840px)", [
+    
+  ]),
+  matches("(min-width: 600px) and (max-width: 839px)", [
+    
+  ]),
+  matches("(max-width: 599px)", [
+    
+  ])
+]));
+```
