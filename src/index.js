@@ -17,6 +17,7 @@ import slot from "./slot";
 import lock from "./lock";
 import map from "./map";
 import filter from "./filter";
+import media from "./media";
 
 export {
   context,
@@ -34,5 +35,6 @@ export {
   filters,
   component,
   slot,
-  lock
+  lock,
+  media
 };

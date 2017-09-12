@@ -332,6 +332,10 @@ All mappers are used as follows:
 query(element).map(mappers.ancestors());
 ```
 
+#### first, last, and nth
+
+> TODO: Document
+
 #### children
 
 ```js
@@ -617,3 +621,25 @@ query(component).each([
 ```
 
 For more on [Authoring Components](https://github.com/lynx-json/jsua-style/wiki/authoring-components) visit the [wiki](https://github.com/lynx-json/jsua-style/wiki).
+
+### Media Queries
+
+You can achieve responsive styling using the `media` function.
+
+```js
+const largeScreen = "(min-width: 840px)";
+const mediumScreen = "(min-width: 600px) and (max-width: 839px)";
+const smallScreen = "(max-width: 599px)";
+
+query(element).each([
+  media(largeScreen, [
+    el => el.style.backgroundColor = "green"
+  ]),
+  media(mediumScreen, [
+    el => el.style.backgroundColor = "yellow"
+  ]),
+  media(smallScreen, [
+    el => el.style.backgroundColor = "red"
+  ])
+]);
+```

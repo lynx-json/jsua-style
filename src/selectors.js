@@ -53,6 +53,7 @@ export function lastChild(selector) {
   };
 }
 
+// Obsolete
 export function nthChild(index, selector) {
   selector = selector || "*";
   return function (element) {
