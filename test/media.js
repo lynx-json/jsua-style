@@ -18,7 +18,7 @@ function resize() {
   window.dispatchEvent(evt);
 }
 
-describe.only("when implementing responsive styling", function () {
+describe("when implementing responsive styling", function () {
   var element, matchesSmall;
 
   beforeEach(function () {
@@ -62,7 +62,7 @@ describe.only("when implementing responsive styling", function () {
     element.getAttribute("large").should.equal("false");
   });
 
-  describe.only("when the media context changes", function () {
+  describe("when the media context changes", function () {
     beforeEach(function () {
       window.matchMedia.withArgs("small").returns({
         matches: false

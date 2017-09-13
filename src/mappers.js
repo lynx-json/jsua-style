@@ -216,6 +216,36 @@ export function nth(number, mapper) {
   };
 }
 
+export function even(mapper) {
+  function* getResults(el) {
+    var matches = query(el).map(mapper).toArray();
+    for (var i = 1, max = matches.length + 1; i < max; i++) {
+      if (i % 2 === 0) {
+        yield matches[i - 1];
+      }
+    }
+  }
+
+  return function (el) {
+    return Array.from(getResults(el));
+  };
+}
+
+export function odd(mapper) {
+  function* getResults(el) {
+    var matches = query(el).map(mapper).toArray();
+    for (var i = 1, max = matches.length + 1; i < max; i++) {
+      if (i % 2 !== 0) {
+        yield matches[i - 1];
+      }
+    }
+  }
+
+  return function (el) {
+    return Array.from(getResults(el));
+  };
+}
+
 export function last(mapper) {
   return function (el) {
     var matches = query(el).map(mapper).toArray();
