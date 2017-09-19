@@ -235,10 +235,29 @@ describe("when selecting elements with `has` mapped elements", function () {
     query(element).select(selectors.has(mappers.children("div"))).each(el => results.push(el));
   });
 
-  it("should select all elements with one or more children matching the selection", function () {
+  it("should select all elements with one or more mapped elements matching the selection", function () {
     results.length.should.equal(2);
     results[0].should.equal(element);
     results[1].should.equal(element.firstElementChild);
+  });
+
+  describe("when selecting elements that have a specific number of mapped elements", function () {
+    beforeEach(function () {
+      element = document.createElement("div");
+      element.innerHTML = `
+      <div><div></div></div>
+      <div></div>
+      `;
+
+      results = [];
+      query(element).select(selectors.has(2, mappers.children("div"))).each(el => results.push(el));
+
+    });
+
+    it("should select all elements with one or more children matching the selection", function () {
+      results.length.should.equal(1);
+      results[0].should.equal(element);
+    });
   });
 });
 

@@ -83,9 +83,21 @@ export function first(selector) {
   }
 }
 
-export function has(mapper) {
+export function has(mapperOrNumber, mapper) {
+  var number;
+  if (typeof mapperOrNumber === "number") {
+    number = mapperOrNumber;
+  } else {
+    mapper = mapperOrNumber;
+  }
+
   return function (element) {
     var matches = query(element).map(mapper).toArray();
+
+    if (number !== undefined) {
+      return matches.length === number;
+    }
+
     return matches.length > 0;
   }
 }
