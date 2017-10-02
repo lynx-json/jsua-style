@@ -1,7 +1,11 @@
 import query from "./query";
 
 export default function select(selector, fn) {
-  return function (el) {
-    query(el).select(selector).each(fn, true);
+  return function (result) {
+    if (result.view) {
+      query(result.view).select(selector).each(fn);
+    } else {
+      query(result).select(selector).each(fn);
+    }
   };
 }

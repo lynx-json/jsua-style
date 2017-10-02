@@ -8,5 +8,6 @@ require("./component");
 require("./mappers");
 require("./map");
 require("./filter");
+require("./select");
 require("./lock");
 require("./media");

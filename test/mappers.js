@@ -188,6 +188,31 @@ describe("when mapping real children", function () {
       results[0].id.should.equal("two");
     });
   });
+
+  describe("when excluding elements with a filter", function () {
+    beforeEach(function () {
+      element = document.createElement("div");
+      element.id = "root";
+
+      element.innerHTML = `
+      <div role="presentation">
+        <div id="one"></div>
+      </div>
+      <div role="presentation">
+        <div data-lynx-hints="content">
+          <div id="two"></div>
+        </div>
+      </div>
+      `;
+
+      results = [];
+      query(element).map(mappers.realChildren("#two", "[data-lynx-hints~=content]")).each(el => results.push(el));
+    });
+
+    it("should select descendants separated from the element by elements matching the exclusion filter", function () {
+      results[0].id.should.equal("two");
+    });
+  })
 });
 
 describe("when mapping children", function () {
@@ -258,6 +283,30 @@ describe("when mapping the real parent", function () {
       results.length.should.equal(0);
     });
   });
+
+  describe("when excluding elements with an exclude filter", function () {
+    element = document.createElement("div");
+    element.id = "root";
+
+    element.innerHTML = `
+    <div role="presentation">
+      <div id="one"></div>
+    </div>
+    <div>
+      <div data-lynx-hints="content">
+        <div id="two"></div>
+      </div>
+    </div>
+    `;
+
+    results = [];
+    query(element).select("#one, #two").map(mappers.realParent("#root", "[data-lynx-hints~=content]")).each(el => results.push(el));
+
+    it("should select ancestors separated from the element by only excluded elements", function () {
+      results.length.should.equal(1);
+      results[0].should.equal(element);
+    });
+  })
 });
 
 describe("when mapping to a parent", function () {

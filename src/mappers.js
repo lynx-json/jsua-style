@@ -114,13 +114,15 @@ export function descendants(selector) {
   };
 }
 
-export function realChildren(selector) {
+export function realChildren(selector, excludeFilter) {
   selector = selector || "*";
 
   function* getChildren(el) {
     for (var i = 0, max = el.children.length; i < max; i++) {
       let child = el.children[i];
       if (child.getAttribute("role") === "presentation") {
+        yield* getChildren(child);
+      } else if (excludeFilter && matches(excludeFilter, child)) {
         yield* getChildren(child);
       } else if (matches(selector, child)) {
         yield child;
@@ -156,14 +158,15 @@ export function children(selector) {
   };
 }
 
-export function realParent(selector) {
+export function realParent(selector, excludeFilter) {
   selector = selector || "*";
 
   return function (el) {
     while (el = el.parentElement) {
-      if (el.getAttribute("role") !== "presentation" && matches(selector, el)) {
+      let exclude = el.getAttribute("role") === "presentation" || (excludeFilter && matches(excludeFilter, el));
+      if (!exclude && matches(selector, el)) {
         return el;
-      } else if (el.getAttribute("role") !== "presentation") {
+      } else if (!exclude) {
         break;
       }
     }
