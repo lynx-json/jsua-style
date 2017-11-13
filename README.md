@@ -655,3 +655,18 @@ refine([
 ```
 
 > The `refine` function is called at the end of a finishing pass and after `media` functions have been called. Children are refined before parents.
+
+### JSUA Finishing
+
+To integrate with JSUA, you must register styling functions as part of the JSUA finishing process.
+
+In addition, you must call the `done` function at the end of finishing.
+
+```js
+jsua.finishing.register("custom-styling", [
+  select("*", [
+    filter("div", el => el.style.color = "blue")
+  ]),
+  done()
+]);
+```
