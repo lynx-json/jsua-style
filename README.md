@@ -643,3 +643,15 @@ query(element).each([
   ])
 ]);
 ```
+
+### Refine
+
+```js
+[
+  refine([
+    
+  ])
+]
+```
+
+After styling has been applied to the element and its children, 
