@@ -644,14 +644,14 @@ query(element).each([
 ]);
 ```
 
-### Refine
+### Refined Styling
+
+After styling has been applied to the element and its children, it is sometimes necessary to make adjustments. For example, it may be necessary to set a visual `overflow` state if it turns out there's insufficient room for an element. Use the `refine` function for this purpose.
 
 ```js
-[
-  refine([
-    
-  ])
-]
+refine([
+  filter(el => el.offsetHeight > 200, setState("overflow"))
+])
 ```
 
-After styling has been applied to the element and its children, 
+> The `refine` function is called at the end of a finishing pass and after `media` functions have been called. Children are refined before parents.
