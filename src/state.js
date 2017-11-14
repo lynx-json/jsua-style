@@ -46,6 +46,21 @@ export function setState(state, value) {
   };
 }
 
+// TODO: Test
+export function toggleState(state) {
+  return function (element) {
+    if (!isTrackingState(element)) {
+      setupState(element);
+    }
+
+    if (element.jsuaStyleHasState(state)) {
+      clearState(state)(element);
+    } else {
+      setState(state)(element);
+    }
+  };
+}
+
 export function clearState(state) {
   return function (element) {
     if (!isTrackingState(element)) {
