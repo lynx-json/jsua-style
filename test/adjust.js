@@ -23,7 +23,7 @@ describe("when styling adjustments", function () {
     document.body.removeChild(element);
   });
 
-  describe.only("when finishing is complete", function () {
+  describe("when finishing is complete", function () {
     var count = 0;
 
     beforeEach(function () {

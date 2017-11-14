@@ -193,6 +193,13 @@ export function slot(slotName, componentName) {
   };
 }
 
+// TODO: TEST
+export function component(name) {
+  var selector = name ? `[data-jsua-style-component~='${name}']` : "[data-jsua-style-component]";
+
+  return first(ancestors(selector))
+}
+
 export function wrapper() {
   return function (el) {
     var wrapperElement = document.createElement("div");
