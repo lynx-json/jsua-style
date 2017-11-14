@@ -3,6 +3,7 @@ import { on, off } from "./on";
 import {
   setState,
   clearState,
+  toggleState,
   when,
   whenNot
 } from "./state";
@@ -29,6 +30,7 @@ export {
   off,
   setState,
   clearState,
+  toggleState,
   when,
   whenNot,
   mappers,

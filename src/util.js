@@ -38,6 +38,16 @@ function getTokens(view, attributeName) {
   return tokens ? tokens.split(" ") : [];
 }
 
+export function hasToken(view, attributeName, token) {
+  var tokens = getTokens(view, attributeName);
+
+  if (token) {
+    return tokens.some(t => t === token);
+  } else {
+    return tokens.length > 0;
+  }
+}
+
 function setTokens(view, attributeName, tokens) {
   tokens = tokens || [];
   view.setAttribute(attributeName, tokens.join(" "));
