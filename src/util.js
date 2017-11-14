@@ -6,7 +6,7 @@ export function executeFunctionOrArrayOfFunctions(fn, element, evt) {
   if (typeof fn !== "function") {
     console.error("Attempting to execute a non-function:", fn);
   }
-  
+
   fn(element, evt);
 }
 
@@ -48,4 +48,14 @@ export function addToken(element, attributeName, token) {
   if (tokens.indexOf(token) > -1) return;
   tokens.push(token);
   setTokens(element, attributeName, tokens);
+}
+
+export function applyAdjustments() {
+  function apply(element) {
+    var evt = document.createEvent("Event");
+    evt.initEvent("jsua-style-adjust", false, false);
+    element.dispatchEvent(evt);
+  }
+
+  Array.from(document.body.querySelectorAll("[data-jsua-style-adjust]")).reverse().forEach(apply);
 }

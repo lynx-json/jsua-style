@@ -644,29 +644,15 @@ query(element).each([
 ]);
 ```
 
-### Refined Styling
+### Styling Adjustments
 
-After styling has been applied to the element and its children, it is sometimes necessary to make adjustments. For example, it may be necessary to set a visual `overflow` state if it turns out there's insufficient room for an element. Use the `refine` function for this purpose.
+After styling has been applied to the element and its children, it is sometimes necessary to make adjustments. For example, it may be necessary to set an `overflow` state if it turns out there's insufficient room for an element. Use the `adjust` function for this purpose.
 
 ```js
-refine([
-  filter(el => el.offsetHeight > 200, setState("overflow"))
+adjust([
+  filter(el => el.offsetHeight > 200, setState("overflow")),
+  filter(el => el.offsetHeight <= 200, clearState("overflow"))
 ])
 ```
 
-> The `refine` function is called at the end of a finishing pass and after `media` functions have been called. Children are refined before parents.
-
-### JSUA Finishing
-
-To integrate with JSUA, you must register styling functions as part of the JSUA finishing process.
-
-In addition, you must call the `done` function at the end of finishing.
-
-```js
-jsua.finishing.register("custom-styling", [
-  select("*", [
-    filter("div", el => el.style.color = "blue")
-  ]),
-  done()
-]);
-```
+> The `adjust` function is called at the end of a finishing pass and after any changes in the media context. Children are adjusted before parents.

@@ -20,6 +20,7 @@ import filter from "./filter";
 import select from "./select";
 import media from "./media";
 import note from "./note";
+import adjust from "./adjust";
 
 export {
   context,
@@ -40,5 +41,6 @@ export {
   slot,
   lock,
   media,
-  note
+  note,
+  adjust
 };

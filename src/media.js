@@ -1,4 +1,5 @@
 import query from "./query";
+import { applyAdjustments } from "./util";
 
 var mediaQueries;
 
@@ -30,6 +31,8 @@ function initialize() {
         }
       }
     });
+
+    applyAdjustments();
   });
 }
 

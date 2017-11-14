@@ -11,3 +11,4 @@ require("./filter");
 require("./select");
 require("./lock");
 require("./media");
+require("./adjust");
