@@ -1,5 +1,6 @@
 import {
-  matches
+  matches,
+  hasToken
 } from "./util";
 
 import {
@@ -138,4 +139,9 @@ export function isHidden() {
   return function (element) {
     return element.jsuaStyleHasState && element.jsuaStyleHasState("visibility", "hidden");
   }
+}
+
+export function unlocked(key) {
+  key = key || "style";
+  return el => !hasToken(el, "data-jsua-style-lock", key);
 }
