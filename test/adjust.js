@@ -1,7 +1,7 @@
 require("./html-document-api");
 const chai = require("chai");
 const should = chai.should();
-import { adjust, query, media } from "../src";
+import { adjust, applyAdjustments, query, media } from "../src";
 const sinon = require("sinon");
 
 function resize() {
@@ -32,14 +32,13 @@ describe("when styling adjustments", function () {
 
       adjust(el => el.setAttribute("adjusted", ++count))(element);
       adjust(el => el.setAttribute("adjusted", ++count))(child);
+
+      applyAdjustments();
     });
 
-    it("should apply adjustments in reverse document order", function (done) {
-      window.setTimeout(function () {
-        element.getAttribute("adjusted").should.equal("2");
-        element.firstElementChild.getAttribute("adjusted").should.equal("1");
-        done();
-      }, 10);
+    it("should apply adjustments in reverse document order", function () {
+      element.getAttribute("adjusted").should.equal("2");
+      element.firstElementChild.getAttribute("adjusted").should.equal("1");
     });
   });
 
@@ -72,11 +71,8 @@ describe("when styling adjustments", function () {
       resize();
     });
 
-    it("should apply adjustments", function (done) {
-      window.setTimeout(function () {
-        element.getAttribute("data-count").should.equal("2");
-        done();
-      }, 10);
+    it("should apply adjustments", function () {
+      element.getAttribute("data-count").should.equal("1");
     });
   });
 });

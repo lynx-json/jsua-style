@@ -22,6 +22,7 @@ import select from "./select";
 import media from "./media";
 import note from "./note";
 import adjust from "./adjust";
+import { applyAdjustments } from "./util";
 
 export {
   context,
@@ -44,5 +45,6 @@ export {
   lock,
   media,
   note,
-  adjust
+  adjust,
+  applyAdjustments
 };
