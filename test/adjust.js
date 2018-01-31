@@ -48,7 +48,11 @@ describe("when styling adjustments", function () {
     beforeEach(function () {
       adjust(el => el.setAttribute("adjusted", true))(element);
 
-      window.matchMedia = sinon.stub(window, 'matchMedia');
+      if (window.matchMedia) {
+        window.matchMedia = sinon.stub(window, 'matchMedia');
+      } else {
+        window.matchMedia = sinon.stub();
+      }
 
       window.matchMedia.withArgs("small").returns({
         matches: false
@@ -76,7 +80,11 @@ describe("when styling adjustments", function () {
     });
 
     afterEach(function () {
-      window.matchMedia.restore();
+      if (window.matchMedia.restore) {
+        window.matchMedia.restore();
+      } else {
+        delete window.matchMedia;
+      }
     });
 
     it("should apply adjustments", function () {

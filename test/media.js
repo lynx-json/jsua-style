@@ -22,7 +22,11 @@ describe("when implementing responsive styling", function () {
   var element, matchesSmall;
 
   beforeEach(function () {
-    window.matchMedia = sinon.stub(window, 'matchMedia');
+    if (window.matchMedia) {
+      window.matchMedia = sinon.stub(window, 'matchMedia');
+    } else {
+      window.matchMedia = sinon.stub();
+    }
 
     window.matchMedia.withArgs("small").returns({
       matches: true
@@ -51,7 +55,11 @@ describe("when implementing responsive styling", function () {
 
   afterEach(function () {
     document.body.removeChild(element);
-    window.matchMedia.restore();
+    if (window.matchMedia.restore) {
+      window.matchMedia.restore();
+    } else {
+      delete window.matchMedia;
+    }
   });
 
   it("should apply matching styles", function () {
