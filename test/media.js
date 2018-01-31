@@ -22,7 +22,7 @@ describe("when implementing responsive styling", function () {
   var element, matchesSmall;
 
   beforeEach(function () {
-    window.matchMedia = sinon.stub();
+    window.matchMedia = sinon.stub(window, 'matchMedia');
 
     window.matchMedia.withArgs("small").returns({
       matches: true
@@ -51,7 +51,8 @@ describe("when implementing responsive styling", function () {
 
   afterEach(function () {
     document.body.removeChild(element);
-  })
+    window.matchMedia.restore();
+  });
 
   it("should apply matching styles", function () {
     element.getAttribute("small").should.equal("true");

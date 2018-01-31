@@ -141,7 +141,17 @@ export function isHidden() {
   }
 }
 
-export function unlocked(key) {
+export function unlocked(key, selector) {
+  if (!selector) {
+    selector = key;
+    key = null;
+  }
+
   key = key || "style";
-  return el => !hasToken(el, "data-jsua-style-lock", key);
+  selector = selector || "*";
+
+  return function (element) {
+    if (!matches(selector, element)) return false;
+    return !hasToken(element, "data-jsua-style-lock", key);
+  }
 }

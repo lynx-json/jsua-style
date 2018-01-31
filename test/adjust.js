@@ -23,7 +23,7 @@ describe("when styling adjustments", function () {
     document.body.removeChild(element);
   });
 
-  describe("when finishing is complete", function () {
+  describe("when adjusting after finishing is complete", function () {
     var count = 0;
 
     beforeEach(function () {
@@ -42,13 +42,13 @@ describe("when styling adjustments", function () {
     });
   });
 
-  describe("when media context changes", function () {
+  describe("when adjusting after media context changes", function () {
     var count = 0;
 
     beforeEach(function () {
       adjust(el => el.setAttribute("adjusted", true))(element);
 
-      window.matchMedia = sinon.stub();
+      window.matchMedia = sinon.stub(window, 'matchMedia');
 
       window.matchMedia.withArgs("small").returns({
         matches: false
@@ -64,11 +64,19 @@ describe("when styling adjustments", function () {
         })
       ]);
 
+      window.matchMedia.returns({
+        matches: false
+      });
+
       window.matchMedia.withArgs("small").returns({
         matches: true
       });
 
       resize();
+    });
+
+    afterEach(function () {
+      window.matchMedia.restore();
     });
 
     it("should apply adjustments", function () {
