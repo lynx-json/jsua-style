@@ -5,7 +5,9 @@ import {
 
 import {
   previousSiblings,
+  previousRealSibling,
   nextSiblings,
+  nextRealSibling,
   realChildren,
   children,
   parent,
@@ -28,12 +30,64 @@ export function firstChild(selector) {
   };
 }
 
+// TODO: Test
+export function firstRealChild() {
+  return not(has(previousRealSibling()));
+}
+
+// TODO: Test
+export function lastRealChild() {
+  return not(has(nextRealSibling()));
+}
+
+// TODO: Test
+export function nthRealChild(number, selector) {
+  selector = selector || "*";
+  return function (el) {
+    var siblings = query(el).map(realParent()).map(realChildren()).toArray();
+
+    if (siblings.length > 0) {
+      let index = siblings.indexOf(el);
+      var matches = query(siblings).filter(el => siblings.indexOf(el) < index).filter(selector).toArray();
+      return matches.length === number - 1;
+    }
+
+    return false;
+  };
+}
+
 export function not(selector) {
   selector = selector || "*";
 
   return function (element) {
     if (matches(selector, element)) {
       return false;
+    }
+
+    return true;
+  };
+}
+
+// TODO: Test
+export function or(selectors) {
+  return function (element) {
+    for (var i = 0; i < selectors.length; i++) {
+      if (matches(selectors[i], element)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+}
+
+// TODO: Test
+export function and(selectors) {
+  return function (element) {
+    for (var i = 0; i < selectors.length; i++) {
+      if (!matches(selectors[i], element)) {
+        return false;
+      }
     }
 
     return true;
@@ -138,6 +192,13 @@ export function hasRealParent(selector) {
 export function isHidden() {
   return function (element) {
     return element.jsuaStyleHasState && element.jsuaStyleHasState("visibility", "hidden");
+  }
+}
+
+// TODO: Test
+export function hasState(state, value) {
+  return function (element) {
+    return element.jsuaStyleHasState && element.jsuaStyleHasState(state, value);
   }
 }
 
