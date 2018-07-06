@@ -12,7 +12,12 @@ export function executeFunctionOrArrayOfFunctions(fn, element, evt) {
 
 export function matches(selector, element) {
   if (typeof selector === "function") return selector(element);
-  return element.matches(selector);
+  try {
+    return element.matches(selector);
+  } catch (err) {
+    console.warn(`Executing selector "${selector}" resulted in an error`);
+    throw err;
+  }
 }
 
 export function* previousSiblings(el) {
