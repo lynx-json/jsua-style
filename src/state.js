@@ -1,6 +1,8 @@
 import {
   executeFunctionOrArrayOfFunctions
 } from "./util";
+import query from "./query";
+import { on } from './on';
 
 function setupState(element) {
   var states = {};
@@ -17,6 +19,10 @@ function setupState(element) {
 
   element.jsuaStyleClearState = function (state) {
     delete states[state];
+  };
+
+  element.jsuaStyleGetState = function (state) {
+    return states[state];
   };
 }
 
@@ -71,6 +77,26 @@ export function clearState(state) {
 
     element.jsuaStyleClearState(state);
     raiseChangeEvent(element, state, true);
+  };
+}
+
+export function mirrorState(state, mapper) {
+  return function (el) {
+    function apply(mappedElement) {
+      var value = mappedElement.jsuaStyleGetState && mappedElement.jsuaStyleGetState(state);
+      if (value !== undefined) {
+        setState(state, value)(el);
+      } else {
+        clearState(state)(el);
+      }
+    }
+    query(el).map(mapper).each([
+      apply,
+      on("jsua-style-state-change", (el, evt) => {
+        if (evt.jsuaStyleState !== state) return;
+        apply(el);
+      })
+    ]);
   };
 }
 

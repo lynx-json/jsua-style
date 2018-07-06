@@ -6,6 +6,7 @@ import {
   query,
   on,
   setState,
+  mirrorState,
   clearState,
   when,
   whenNot
@@ -31,6 +32,33 @@ describe("when setting state", function () {
   });
 
   it("should indicate the state that changed", function () {
+    stateChangeEvent.jsuaStyleState.should.equal("hover");
+  });
+});
+
+describe("when mirroring the state of another element", function () {
+  var element, mirrorElement;
+  var stateChangeEvent;
+  beforeEach(function () {
+    element = document.createElement("div");
+    mirrorElement = document.createElement("div");
+
+    query(mirrorElement).each([
+      mirrorState("hover", el => element),
+      on("jsua-style-state-change", (el, evt) => stateChangeEvent = evt)
+    ]);
+    query(element).each(setState("hover"));
+  });
+
+  it("should raise a state change event on the mirror element", function () {
+    should.exist(stateChangeEvent);
+  });
+
+  it("should have the new state on the mirror element", function () {
+    mirrorElement.jsuaStyleHasState("hover").should.be.true;
+  });
+
+  it("should indicate the state that changed on the mirror element", function () {
     stateChangeEvent.jsuaStyleState.should.equal("hover");
   });
 });

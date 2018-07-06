@@ -5,7 +5,8 @@ import {
   clearState,
   toggleState,
   when,
-  whenNot
+  whenNot,
+  mirrorState
 } from "./state";
 
 import * as mappers from "./mappers";
@@ -32,6 +33,7 @@ export {
   setState,
   clearState,
   toggleState,
+  mirrorState,
   when,
   whenNot,
   mappers,

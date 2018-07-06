@@ -71,7 +71,7 @@ query(element).filter(el => el.id === "one").each(el => console.log(`Selected "$
 ```
 
 In most cases, rather than chaining a `filter` function to a query, it makes sense to do
-a simple `filter` operation (or many consecutive `filter` operations) while maintaining the original 
+a simple `filter` operation (or many consecutive `filter` operations) while maintaining the original
 context. This can be done with the standalone `filter` function.
 
 ```js
@@ -290,7 +290,7 @@ query(parent.firstElementChild).map(el => el.parent).each(el => console.log(`Sel
 ```
 
 In most cases, rather than chaining a `map` function to a query, it makes sense to do
-a simple `map` operation (or many consecutive `map` operations) while maintaining the original 
+a simple `map` operation (or many consecutive `map` operations) while maintaining the original
 context. This can be done with the standalone `map` function.
 
 ```js
@@ -327,7 +327,7 @@ module provides the following commonly used functions.
 - `ancestors`: All ancestors of the specified element.
 
 All mappers are used as follows:
-  
+
 ```js
 query(element).map(mappers.ancestors());
 ```
@@ -538,7 +538,7 @@ query(el).each([
 ]);
 ```
 
-Managing State
+Styling Based on Visual State
 -------------------------------------------------
 
 You can style an element in one or many states (using `on` to respond to events and `when` to apply styles only when the element is in a particular state):
@@ -554,7 +554,40 @@ query(element).each([
 ]);
 ```
 
-> You can stop responding to an event by calling `off(eventName)` (for example, `off("mouseover")`).
+Styling within a `when` function will be called in the order of declaration.
+In the example above, the `normal` styles will be applied and then, if the
+element is in the 'hover' state, the `hover` styles will be applied. The end
+result, when in the `hover` state, is a blue background.
+
+### Mirroring the State of Another Element
+
+Consider an input field with an invalid input. I'd like to turn the label
+red when the input is invalid.
+
+Here's the structure of the input field:
+
+```html
+<div id="input-field">
+  <label>First name</div>
+  <input type="text" />
+</div>
+```
+
+The input field itself does not have validity, but it can mirror the validity
+of its input and act as if it does.
+
+```js
+select("#input-field", [
+  when("validity", "invalid", [
+    select("label", el => el.style.color = "red")
+  ]),
+  // The input field is mirroring the state of its input.
+  mirrorState("validity", mappers.children("input"))
+])
+```
+
+Other Styling Functions
+-------------------------------------------------
 
 ### Context
 
