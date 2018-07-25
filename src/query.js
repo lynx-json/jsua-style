@@ -3,14 +3,16 @@ import {
   matches
 } from "./util";
 
-function* filter(selector, selection) {
-  for (var e of selection) {
-    if (matches(selector, e)) yield e;
-  }
+var Iterable = require("./iterable");
+import { createSelectIterator, createMapperIterator } from "./iterators";
+
+function filter(selector, selection) {
+  return selection.filter(e => matches(selector, e));
 }
 
 function each(fn, selection) {
   var executedElements = [];
+
   for (let el of filter(el => el !== null && executedElements.indexOf(el) === -1, selection)) {
     executeFunctionOrArrayOfFunctions(fn, el);
     executedElements.push(el);
@@ -19,48 +21,26 @@ function each(fn, selection) {
   return executedElements;
 }
 
-function* select(selector, selection) {
-  for (let e of selection) {
-    if (!e) continue;
-    if (matches(selector, e)) {
-      yield e;
-    }
-
-    if (typeof selector === "function") {
-      for (let descendant of e.querySelectorAll("*")) {
-        if (selector(descendant)) yield descendant;
-      }
-    } else {
-      yield* e.querySelectorAll(selector);
-    }
-  }
+function select(selector, selection) {
+  return new Iterable(() => createSelectIterator(selector, selection));
 }
 
-function* map(fn, selection) {
-  if (fn === null || fn === undefined) return;
-   
-  for (var e of selection) {
-    if (typeof fn !== "function") {
-      console.error("Attempting to map using a non-function:", fn);
-    }
-    
-    let result = fn(e);
-    if (!result) continue;
-    if (result.tagName) yield result;
-    else yield* result;
-  }
+function map(fn, selection) {
+  return new Iterable(() => createMapperIterator(fn, selection));
 }
 
 export default function query(selection) {
   if (selection.querySelector) {
-    selection = [selection];
+    selection = new Iterable([selection]);
+  } else if (Array.isArray(selection)) {
+    selection = new Iterable(selection);
   }
 
   var q = {};
 
   q.each = function (fn) {
     selection = each(fn, selection);
-    
+
     return q;
   };
 
