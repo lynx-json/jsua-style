@@ -51,7 +51,7 @@ export function createMapperIterator(fn, selection) {
 
       if (!result) {
         sourceNext = sourceIterator.next();
-        continue
+        continue;
       }
 
       if (result.tagName) {

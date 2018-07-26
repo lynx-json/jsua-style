@@ -108,7 +108,7 @@ describe("when mapping ancestors", function () {
       query(element).select("*").map(mappers.ancestors("#two")).each(el => results.push(el));
     });
 
-    it("should return the filtered results", function () {
+    it.only("should return the filtered results", function () {
       results[0].id.should.equal("two");
     });
   });

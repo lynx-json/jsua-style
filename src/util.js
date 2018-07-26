@@ -20,22 +20,28 @@ export function matches(selector, element) {
   }
 }
 
-export function* previousSiblings(el) {
+export function previousSiblings(el) {
+  var result = [];
   var previousSibling = el.previousElementSibling;
 
   while (previousSibling) {
-    yield previousSibling;
+    result.push(previousSibling);
     previousSibling = previousSibling.previousElementSibling;
   }
+
+  return result;
 }
 
 export function* nextSiblings(el) {
+  var result = [];
   var nextSibling = el.nextElementSibling;
 
   while (nextSibling) {
-    yield nextSibling;
+    result.push(nextSibling);
     nextSibling = nextSibling.nextElementSibling;
   }
+
+  return result;
 }
 
 function getTokens(view, attributeName) {

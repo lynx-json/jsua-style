@@ -34,13 +34,16 @@ export function previousRealSibling(selector) {
 export function previousSiblings(selector) {
   selector = selector || "*";
 
-  return function* (el) {
+  return function (el) {
+    var result = [];
     var previousSibling = el.previousElementSibling;
 
     while (previousSibling) {
-      if (matches(selector, previousSibling)) yield previousSibling;
+      if (matches(selector, previousSibling)) result.push(previousSibling);
       previousSibling = previousSibling.previousElementSibling;
     }
+
+    return result;
   };
 }
 
@@ -77,84 +80,100 @@ export function nextRealSibling(selector) {
 export function nextSiblings(selector) {
   selector = selector || "*";
 
-  return function* (el) {
+  return function (el) {
+    var result = [];
     var nextSibling = el.nextElementSibling;
 
     while (nextSibling) {
-      if (matches(selector, nextSibling)) yield nextSibling;
+      if (matches(selector, nextSibling)) result.push(nextSibling);
       nextSibling = nextSibling.nextElementSibling;
     }
+
+    return result;
   };
 }
 
 export function ancestors(selector) {
   selector = selector || "*";
 
-  return function* (el) {
+  return function (el) {
+    var result = [];
     var ancestor = el.parentElement;
 
     while (ancestor) {
-      if (matches(selector, ancestor)) yield ancestor;
+      if (matches(selector, ancestor)) result.push(ancestor);
       ancestor = ancestor.parentElement;
     }
+
+    return result;
   };
 }
 
 export function descendants(selector) {
   selector = selector || "*";
 
-  return function* (el) {
+  return function (el) {
+    var result = [];
     if (typeof selector === "function") {
       for (let descendant of el.querySelectorAll("*")) {
-        if (selector(descendant)) yield descendant;
+        if (selector(descendant)) result.push(descendant);
       }
     } else {
-      yield* el.querySelectorAll(selector);
+      for (let descendant of el.querySelectorAll(selector)) {
+        result.push(descendant);
+      };
     }
+
+    return result;
   };
 }
 
 export function realChildren(selector, excludeFilter) {
   selector = selector || "*";
 
-  function* getChildren(el) {
+  function getChildren(el) {
+    var result = [];
+
     for (var i = 0, max = el.children.length; i < max; i++) {
       let child = el.children[i];
       if (child.getAttribute("role") === "presentation") {
-        yield* getChildren(child);
+        for (let c of getChildren(child)) {
+          result.push(c);
+        }
       } else if (excludeFilter && matches(excludeFilter, child)) {
-        yield* getChildren(child);
+        for (let c of getChildren(child)) {
+          result.push(c);
+        }
       } else if (matches(selector, child)) {
-        yield child;
+        result.push(child);
       }
     }
+
+    return result;
   }
 
   return function (el) {
-    // We can't return the iterable directly,
-    // because it's possible that the structure changes
-    // as a result of styling.
-    return Array.from(getChildren(el));
+    return getChildren(el);
   };
 }
 
 export function children(selector) {
   selector = selector || "*";
 
-  function* getChildren(el) {
+  function getChildren(el) {
+    var result = [];
     for (var i = 0, max = el.children.length; i < max; i++) {
       let child = el.children[i];
       if (matches(selector, child)) {
-        yield child;
+        result.push(child);
       }
     }
+
+    return result;
   }
 
   return function (el) {
-    // We can't return the iterable directly,
-    // because it's possible that the structure changes
-    // as a result of styling.
-    return Array.from(getChildren(el));
+    return getChildren(el);
   };
 }
 
@@ -227,13 +246,15 @@ export function nth(number, mapper) {
 }
 
 export function even(mapper) {
-  function* getResults(el) {
+  function getResults(el) {
+    var result = [];
     var matches = query(el).map(mapper).toArray();
     for (var i = 1, max = matches.length + 1; i < max; i++) {
       if (i % 2 === 0) {
-        yield matches[i - 1];
+        result.push(matches[i - 1]);
       }
     }
+    return result;
   }
 
   return function (el) {
@@ -242,13 +263,16 @@ export function even(mapper) {
 }
 
 export function odd(mapper) {
-  function* getResults(el) {
+  function getResults(el) {
+    var result = [];
     var matches = query(el).map(mapper).toArray();
     for (var i = 1, max = matches.length + 1; i < max; i++) {
       if (i % 2 !== 0) {
-        yield matches[i - 1];
+        result.push(matches[i - 1]);
       }
     }
+
+    return result;
   }
 
   return function (el) {
