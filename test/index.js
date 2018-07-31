@@ -12,3 +12,4 @@ require("./select");
 require("./lock");
 require("./media");
 require("./adjust");
+require("./iterators");

@@ -32,7 +32,7 @@ export function previousSiblings(el) {
   return result;
 }
 
-export function* nextSiblings(el) {
+export function nextSiblings(el) {
   var result = [];
   var nextSibling = el.nextElementSibling;
 

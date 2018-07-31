@@ -62,7 +62,12 @@ export function createMapperIterator(fn, selection) {
       }
 
       currentIterator = new Iterable(result)[Symbol.iterator]();
-      return currentIterator.next();
+      var next = currentIterator.next();
+      if (!next.done) {
+        return next;
+      } else {
+        sourceNext = sourceIterator.next();
+      }
     }
 
     return {
